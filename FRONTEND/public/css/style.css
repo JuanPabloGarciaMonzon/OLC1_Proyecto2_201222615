@@ -1,0 +1,36 @@
+/* Styles go here */
+div.a {
+	position: relative;
+	left: 1000px;
+	top:-300px;
+	width: 750px;
+	height: 200px;
+	font-family:verdana;
+	font-size: xx-large;
+	
+  }
+  
+  div.b {
+	position: relative;
+	right: 0;
+	left:1000px;
+	bottom:200px;
+	width: 750px;
+	height: 200px;
+	font-family:verdana;
+	font-size: xx-large;
+
+  } 
+  
+  div.c {
+	position: relative;
+	right: 150px;
+	left: 10px;
+	bottom:30px;
+	width: 700px;
+	height: 200px;
+	font-family:verdana;
+	font-size: xx-large;
+
+  
+  } 

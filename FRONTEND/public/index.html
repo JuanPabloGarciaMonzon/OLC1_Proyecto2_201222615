@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CodeMirror</title>
+    <!--OTHER IMPORTS-->
+    <link href="css/style.css"      rel="stylesheet" >
+    <link href="css/menu.css"       rel="stylesheet">
+    <link href="css/principal.css"  rel="stylesheet">
+    <link href="css/tab_salida.css" rel="stylesheet">
+   <!--CODE MIRROR IMPORTS-->
+   
+    <link href="codemirror/lib/codemirror.css" rel="stylesheet" >
+    <link href="codemirror/theme/blackboard.css"  rel="stylesheet" >
+    <link href="codemirror/theme/eclipse.css"  rel="stylesheet" >
+
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/addon/edit/closetag.js"></script>
+    <script src="codemirror/addon/edit/closebrackets.js"></script>
+    <script src="codemirror/mode/clike/clike.js"></script>
+    <script src="codemirror/mode/python/python.js"></script>
+    <script src="codemirror/mode/javascript/javascript.js"></script>
+
+    <script src="js/id/uuid.min.js"></script>
+    <script src="js/FileSaver.js"></script>
+
+</head>
+
+<body style="background-color:darkblue;">
+    <ul id="menu" class="menu">
+        <li class="dropdown">
+            <a class="linkarchivo" style ="font-size: xx-large;" href="javascript:void(0)" class="dropbtn">Menu</a>
+            <div class="dropdown-content">
+                <a href="javascript:void(0)" >
+                    <label id ="file-upload-label" style ="font-size: xx-large;" class="lblabrir" for="file-upload" class="subir">
+                        <i class="fas fa-cloud-upload-alt" ></i> Abrir
+                    </label>
+                        <input id="file-upload"  type="file" onchange="localLoad(this.files);" style='display: none;' />
+                </a>
+    
+                <a id="guardar" class="guardar"   style ="font-size: xx-large;" onclick="saveFile()" href="javascript:void(0)">Guardar</a>
+                <a id="guardar" class="guardar"   style ="font-size: xx-large;" onclick="saveFile()" href="javascript:void(0)">Guardar Como</a>
+                <a id="analizar" class="analizar" style ="font-size: xx-large;"onclick="analizar()" href="javascript:void(0)">Analizar</a>
+                <!--<a id="limpiar_a" class="limpiar_a" onclick="limpiar_a()" href="javascript:void(0)">Limpiar Analisis</a>-->
+            </div>
+        </li>
+    
+        <li class="dropdown">
+            <a class="linkarchivo" href="javascript:void(0)" style ="font-size: xx-large;" class="dropbtn">Descargar</a>
+            <div class="dropdown-content">
+                <input type="button" id="btn" value="Download" /> 
+                <a id="rep_ast" class="rep_ast" style ="font-size: xx-large;" onclick='' href="javascript:void(0)">JavaScript</a>
+                <a id="copia_class" class="copia_class" style ="font-size: xx-large;" onclick='' href="javascript:void(0)">Python</a>
+            </div>
+        </li>
+    
+        <li class="dropdown">
+            <a class="linkarchivo" href="javascript:void(0)" style ="font-size: xx-large;" class="dropbtn">Reportes</a>
+            <div class="dropdown-content">
+                <a id="rep_error" class="rep_error" style ="font-size: xx-large;" onclick='' href="javascript:void(0)">Tabla de Errores</a>
+                <a id="rep_ast" class="rep_ast" onclick='' style ="font-size: xx-large;"  href="javascript:void(0)">Lista de Tokens</a>
+                <a id="copia_class" class="copia_class" style ="font-size: xx-large;"  onclick='' href="javascript:void(0)">AST</a>
+            </div>
+        </li>
+    
+    </ul>
+    <center>
+        <label style="font-size: xx-large;font-family:Verdana">Juan Pablo Garcia Monzon 2012-22615</label>   
+    </center> 
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+<!-------------HTML TextArea JAVA Console and CodeMirror Script---------------------->
+
+    <br>
+    
+    <br>
+    
+    <div class = "c">
+        <label>JAVA</label>
+        <textarea id="txt_jv" class = "city" style="font-family:verdana" autofocus="true" ></textarea>
+        <br>
+    <br>
+    </div>
+    <br>
+    <br>
+    <script>
+
+        var editorJv = CodeMirror.fromTextArea
+        (document.getElementById("txt_jv"),{
+            mode: "text/x-java",
+            theme :"eclipse",
+            lineNumbers:true,
+            autoCloseBrackets:true,
+            border:"1px solid #ddd"            
+        });
+        
+        function localLoad(files) {
+            if (files.length == 1) {
+                document.title = escape(files[0].name);
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                editorJv.setValue(e.target.result);
+            };
+            reader.readAsText(files[0]);
+         }
+        }
+		function saveFile() {
+            var userInput = editorJv.getValue();
+            var blob = new Blob([userInput], { type: "text/plain;charset=utf-8" });
+            saveAs(blob, "file.java");
+        }
+
+    </script>    
+<!------------------------------------------------------------------------------------>
+
+<!-------------HTML TextArea Python Console and CodeMirror Script---------------------->
+
+    <br>
+    <br>
+    <div class = "a">
+        <label>PYTHON</label>
+        <textarea id="txt_python" autofocus="true" ></textarea>
+    </div>
+    <script>
+        var editorPy = CodeMirror.fromTextArea
+        (document.getElementById("txt_python"),{
+            mode: "python",
+            theme :"blackboard",
+            lineNumbers:true,
+            autoCloseBrackets:true
+        });
+        function saveFile() {
+            var userInput = editorJv.getValue();
+            var blob = new Blob([userInput], { type: "text/plain;charset=utf-8" });
+            saveAs(blob, "file.java");
+            saveAs(blob, "file.py");
+        }
+    </script>    
+<!------------------------------------------------------------------------------------>
+
+<!-------------HTML TextArea JavaScript Console and CodeMirror Script---------------------->
+
+    <br>
+    <br>
+    <div class = "b">
+        <label>JAVASCRIPT</label>
+        <textarea id="txt_js" autofocus="true" ></textarea>
+        <br>
+        <br>
+    </div>
+    <br>
+    <br>
+    <script>
+        var editorJs = CodeMirror.fromTextArea
+        (document.getElementById("txt_js"),{
+            mode: "javascript",
+            theme :"blackboard",
+            lineNumbers:true,
+            autoCloseBrackets:true,
+
+            
+        });    
+    </script>    
+<!------------------------------------------------------------------------------------>
+
+
+</body>
+
+
+</html>

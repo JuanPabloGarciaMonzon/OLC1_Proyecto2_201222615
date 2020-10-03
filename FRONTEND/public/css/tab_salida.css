@@ -1,0 +1,46 @@
+.pestanas {
+
+    font-size: 3ex;
+    font-weight: bold;
+}
+
+.pestanas, ul{
+    margin-left: -35px;
+    margin-top: -10px;
+}
+
+.pestanas, .lis{
+    list-style-type: none;
+    float: left;
+    text-align: center;
+    margin: 0px 0px -2px 0px;
+    /*margin: 0px 1px -2px -0px;*/
+}
+
+.contenidopestanas{
+    clear: both;
+    border-radius: 5px;
+    border-top-left-radius: 0px;
+}
+
+.divhtmljason{
+    padding: 5px 10px 5px 5px;
+}
+.contenidopestanas{
+
+    padding: 3px 5px 5px 5px;
+}
+
+ .pestana1, .cpestana1{
+  background: #047;
+
+}
+
+.pestana2, .cpestana2{
+  background: #740;
+
+}
+.cpestana2{
+    display: none;
+}
+
