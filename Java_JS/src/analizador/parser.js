@@ -3,7 +3,7 @@ var parser = require('./analizadorJS');
 
 function ejecutar(texto)
 {
-    try
+    try     
     {
         let traduccion = parser.parse(texto);
         console.log(traduccion);

@@ -1,0 +1,180 @@
+% left or;
+% left and;
+% left xor;
+% right not;
+
+% left menorque,menorigualque,mayorque,mayorigualque,igualigual,diferenteque;
+
+% left mas,menos;
+% left por,division,modulo;
+% left potencia;
+% left parizquierdo,parderecho;
+//% left masmas,menosmenos; //Así lo tenía antes
+
+% left punto; //Para los accesos
+
+% left umenos;
+
+%start S
+
+%% /* Definición de la gramática */
+
+S
+	: INICIO EOF {
+		// cuando se haya reconocido la entrada completa retornamos la entrada traducida
+		return $1;
+	}
+;
+
+INICIO
+        :INICIO CL_IN{$$ = `${$1}${$2}`; }
+        |CL_IN{$$ = `${$1}`; }
+;
+
+COMENTARIO
+        : er_unilinea{$$ = `${$1}\n`;}
+        | er_multi{$$ = `${$1}\n`;}
+;
+CL_IN
+        :tk_public tk_class er_id tk_labre INSTRUCCIONES tk_lcierra { $$ = `${$1} ${$2} ${$3} { \n ${$5}}`;}
+        |tk_public tk_interface er_id tk_labre INSTRUCCIONES tk_lcierra { $$ = `${$1} ${$2} ${$3} { \n ${$5}}`;}
+        |COMENTARIO{$$ = `${$1}`;}
+;
+
+
+
+INSTRUCCIONES
+	: INSTRUCCIONES INSTRUCCION 	{ $$ = `${$1}${$2}`; }
+	| INSTRUCCION		        { $$ = `${$1}`; }
+;
+
+
+INSTRUCCION
+	: DEFDECLARACION tk_puntocoma     { $$ = `${$1};\n`; }
+	| DEFASIGNACION  tk_puntocoma     { $$ = `${$1};\n`; }
+        | MET_FUN			  { $$ = `${$1}\n`; }
+        | DEFIF			          { $$ = `${$1}\n`; }
+        | DEFWHILE			  { $$ = `${$1}\n`; }
+        | DEFFOR			  { $$ = `${$1}\n`; }
+        | DEFDWHILE			  { $$ = `${$1}\n`; }
+        | DEFPRINT tk_puntocoma 	  { $$ = `${$1};\n`; }
+        | INC_DEC tk_puntocoma 	          { $$ = `${$1};\n`; }
+        | tk_break tk_puntocoma 	  { $$ = `${$1};\n`; }
+        | tk_continue tk_puntocoma 	  { $$ = `${$1};\n`; }
+        | tk_return RETURN tk_puntocoma   { $$ = `${$1} ${$2};\n`; }
+	| error tk_puntocoma { 
+        console.log('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); 
+    }
+    | error tk_lcierra { 
+        console.log('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); 
+    }
+;
+
+MET_FUN
+        :tk_public TYPE    er_id tk_pabre PARAMETROS tk_pcierra BLOQUESENTENCIAS{ $$ = `public ${$2} ${$3} (${$5}) \n ${$7}`;}
+        |tk_public tk_void er_id tk_pabre PARAMETROS tk_pcierra BLOQUESENTENCIAS{ $$ = `public void ${$3} (${$5}) \n ${$7}`;}
+;
+
+RETURN
+        :
+        |EXPRESION {$$ = `${$1}`;}
+;
+
+BLOQUESENTENCIAS
+    : tk_labre INSTRUCCIONES tk_lcierra	{ $$ = `{\n${$2}}`; }
+;
+
+DEFDECLARACION
+    : TYPE LISTAID tk_igual EXPRESION 	    { $$ = `${$1} ${$2} = ${$4}`; }
+;
+
+PARAMETROS
+        :PARAMETROS tk_coma PARAMETRO{$$ = `${$1} , ${$3}`;}
+        |PARAMETRO{$$ = `${$1}`;}
+;
+
+PARAMETRO
+        :TYPE EXPRESION{$$ = `${$1} ${$2}`;}
+;
+
+LISTAID
+        :LISTAID tk_coma EXPRESION{$$ = `${$1} , ${$3}`;}
+        |LISTAID tk_igual EXPRESION{$$ = `${$1} = ${$3}`;}
+        |EXPRESION{$$ = `${$1}`;}
+;
+TYPE
+    : tk_int 	{ $$ = 'entero'; }
+    | tk_double 	{ $$ = 'decimal'; }
+    | tk_boolean 	{ $$ = 'booleano'; }
+    | tk_char 	{ $$ = 'caracter'; }
+    | tk_string 	{ $$ = 'cadena'; }
+;
+
+DEFASIGNACION
+    : EXPRESION tk_igual EXPRESION 	{ $$ = `${$1} = ${$3}`; }
+;
+
+DEFIF
+    : tk_if tk_pabre EXPRESION tk_pcierra BLOQUESENTENCIAS							{ $$ = `si ( ${$3} ) \n${$5}`; }
+    | tk_if tk_pabre EXPRESION tk_pcierra BLOQUESENTENCIAS tk_else BLOQUESENTENCIAS	{ $$ = `si ( ${$3} ) \n${$5}sino \n${$7}`; }
+    | tk_if tk_pabre EXPRESION tk_pcierra BLOQUESENTENCIAS tk_else DEFIF				{ $$ = `si ( ${$3} ) \n${$5}sino ${$7}`; }
+;
+
+DEFFOR
+    : tk_for tk_pabre DEFDECLARACION tk_puntocoma EXPRESION tk_puntocoma er_id tk_pcierra BLOQUESENTENCIAS {$$=`for(${$3};${$5};${$7})${$9}`;}							
+    | tk_for tk_pabre DEFASIGNACION tk_puntocoma EXPRESION tk_puntocoma er_id tk_pcierra BLOQUESENTENCIAS {$$=`for(${$3};${$5};${$7})${$9}`;}
+;
+DEFDWHILE
+        :tk_do BLOQUESENTENCIAS tk_while tk_pabre EXPRESION  tk_pcierra tk_puntocoma{ $$ = `do ${$2} while (${$5});` }
+;
+DEFPRINT
+    : tk_print   tk_pabre EXPRESION tk_pcierra { $$ = `console.log ( ${$3} )`; }
+    | tk_println tk_pabre EXPRESION tk_pcierra { $$ = `console.log ( ${$3} )`; }
+;
+
+DEFWHILE
+    : tk_while tk_pabre EXPRESION tk_pcierra BLOQUESENTENCIAS { $$ = `mientras ( ${$3} ) \n${$5}` }
+;
+
+EXPRESION
+        : EXPRESION tk_igualdad EXPRESION       { $$ = `${$1} + ${$3}`; }
+        | EXPRESION tk_res EXPRESION       { $$ = `${$1} - ${$3}`; }
+        | EXPRESION tk_mul EXPRESION       { $$ = `${$1} * ${$3}`; }
+        | EXPRESION tk_div EXPRESION       { $$ = `${$1} / ${$3}`; }
+        | tk_res EXPRESION %prec UMENOS	   { $$ = `- ${$2}`; }
+        | tk_pabre EXPRESION tk_pcierra    { $$ = `( ${$2} )`; }
+
+        | tk_not EXPRESION %prec UNOT      { $$ = `! ${$2}`; }
+        | er_numero                     { $$ = `${$1}`; }
+        | er_char                       { $$ = `${$1}`; }
+        | er_string                     { $$ = `${$1}`; }
+        | tk_true                       { $$ = `verdadero` }
+        | tk_false                      { $$ = `falso` }
+        | er_id                         { $$ = $1 }
+;
+
+ARITMETICA
+        :tk_sum { $$ = ` + `; }
+        |tk_res { $$ = ` - `; }
+        |tk_mul { $$ = ` * `; }
+        |tk_div { $$ = ` / `; }
+;
+LOGICA
+        : tk_and          { $$ = ` && `; }
+        | tk_or           { $$ = `||`; }
+        
+;
+
+RELACIONALES
+        : tk_igualdad  { $$ = `==`; }
+        | tk_diferencia{ $$ = `!=`; }
+        | tk_menq      { $$ = `<`; }
+        | tk_mayq      { $$ = `>=`; }
+        | tk_menq      { $$ = `<=`; }
+;
+
+
+INC_DEC
+        :EXPRESION tk_sum tk_sum         { $$ = `${$1}++`; }
+        |EXPRESION tk_res tk_res         { $$ = `${$1}--`; }
+;
