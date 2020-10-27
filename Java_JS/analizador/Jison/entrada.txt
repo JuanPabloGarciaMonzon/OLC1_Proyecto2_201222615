@@ -1,0 +1,14 @@
+
+
+public class Myclase { 
+
+    int constante=5+5;
+
+
+       
+
+}
+
+ 
+
+
