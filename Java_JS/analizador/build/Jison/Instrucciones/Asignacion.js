@@ -5,9 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../Abstract/instruccion");
 const nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
-class Declaracion extends instruccion_1.Instruccion {
+class Asignacion extends instruccion_1.Instruccion {
     constructor(identificador, expresion, linea, columna) {
         super(linea, columna);
+        console.log("ENTRO A ASIGACION");
         this.identificador = identificador;
         this.expresion = expresion;
     }
@@ -34,5 +35,5 @@ class Declaracion extends instruccion_1.Instruccion {
         
     }
 }
-exports.default = Declaracion;
+exports.default = Asignacion;
 //# sourceMappingURL=Asignacion.js.map

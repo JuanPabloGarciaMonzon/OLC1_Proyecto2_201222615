@@ -46,6 +46,7 @@ function (_instruccion_1$Instru) {
     _this.identificador = identificador;
     _this.instrucciones = instrucciones;
     _this.parametros = parametros;
+    console.log("INSTRUCCIONES METODO:" + _this.instrucciones);
     return _this;
   }
 

@@ -44,6 +44,7 @@ function (_instruccion_1$Instru) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Declaracion).call(this, linea, columna));
     _this.tipo = tipo;
+    console.log("ENTRO A DECLARACION");
     _this.identificador = identificador;
     return _this;
   }
@@ -90,6 +91,7 @@ function (_instruccion_1$Instru) {
     value: function traducir() {
       try {
         var lista = '';
+        var pam = "";
         var _iteratorNormalCompletion2 = true;
         var _didIteratorError2 = false;
         var _iteratorError2 = undefined;
@@ -97,7 +99,7 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator2 = this.identificador[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var lst = _step2.value;
-            lista += lst.traducir();
+            lista += lst.traducir() + ",";
           }
         } catch (err) {
           _didIteratorError2 = true;
@@ -114,7 +116,8 @@ function (_instruccion_1$Instru) {
           }
         }
 
-        return "".concat(this.tipo, " ").concat(lista);
+        pam = lista.substring(0, lista.length - 1);
+        return "".concat(this.tipo, " ").concat(pam, ";");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

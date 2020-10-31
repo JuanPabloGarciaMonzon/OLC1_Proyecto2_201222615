@@ -9,6 +9,7 @@ class Declaracion extends instruccion_1.Instruccion {
     constructor(tipo, identificador, linea, columna) {
         super(linea, columna);
         this.tipo = tipo;
+        console.log("ENTRO A DECLARACION");
         this.identificador = identificador;
     }
     getNodo() {
@@ -31,11 +32,12 @@ class Declaracion extends instruccion_1.Instruccion {
 
         try {
             var lista = '';
+            var pam = "";
             for (let lst of this.identificador) {
-                lista += lst.traducir();
+                lista += lst.traducir()+",";
             }
-    
-            return `${this.tipo} ${lista}`;
+            pam = lista.substring(0,lista.length-1);
+            return `${this.tipo} ${pam};`;
             
         } catch (error) {
 

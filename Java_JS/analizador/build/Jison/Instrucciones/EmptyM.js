@@ -5,13 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../Abstract/instruccion");
 const nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
-class Metodo extends instruccion_1.Instruccion {
-    constructor(identificador, parametros, instrucciones, linea, columna) {
+class EmptyM extends instruccion_1.Instruccion {
+    constructor(identificador, parametros, linea, columna) {
         super(linea, columna);
         this.identificador = identificador;
-        this.instrucciones = instrucciones;
         this.parametros = parametros;
-        console.log("INSTRUCCIONES METODO:"+this.instrucciones);
     }
     getNodo() {
         try {
@@ -28,12 +26,8 @@ class Metodo extends instruccion_1.Instruccion {
     
             nodo.agregarHijo(")");
             nodo.agregarHijo("{");
-            var el = new nodoAST_1.default("INSTRUCCIONES");
-            for (let m of this.instrucciones) {
-                el.agregarHijo2(m.getNodo());
-            }
-            
-            nodo.agregarHijo2(el);
+            var el = new nodoAST_1.default("EXCEPCION");           
+            nodo.excepcion();
             nodo.agregarHijo("}");
             return nodo;     
         } catch (error) {
@@ -43,24 +37,20 @@ class Metodo extends instruccion_1.Instruccion {
     }
     traducir() {
         try {
-            var instrucc = '';
             var parametro = '';
             var pam = '';
-            
-            for (let instr of this.instrucciones) {
-                instrucc += instr.traducir();
-            }
+        
     
             for (let par of this.parametros) {
                 parametro += par.traducir()+ ",";
             }
             pam = parametro.substring(0,parametro.length-1);
-            return `public void ${this.identificador} (${pam})\n {\n${instrucc}\n}\n`;   
+            return `public void ${this.identificador} (${pam})\n {\n}\n`;   
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);   
         }
 
     }
 }
-exports.default = Metodo;
+exports.default = EmptyM;
 //# sourceMappingURL=Metodo.js.map

@@ -96,6 +96,7 @@ function (_instruccion_1$Instru) {
     value: function traducir() {
       try {
         var parametros = '';
+        var pam = '';
         var _iteratorNormalCompletion2 = true;
         var _didIteratorError2 = false;
         var _iteratorError2 = undefined;
@@ -103,7 +104,7 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator2 = this.parametros[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var par = _step2.value;
-            parametros += par.traducir();
+            parametros += par.traducir() + ",";
           }
         } catch (err) {
           _didIteratorError2 = true;
@@ -120,7 +121,8 @@ function (_instruccion_1$Instru) {
           }
         }
 
-        return "\npublic ".concat(this.tipo, " ").concat(this.identificador, " (").concat(parametros, ");\n");
+        pam = parametros.substring(0, parametros.length - 1);
+        return "\npublic ".concat(this.tipo, " ").concat(this.identificador, " (").concat(pam, ");\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

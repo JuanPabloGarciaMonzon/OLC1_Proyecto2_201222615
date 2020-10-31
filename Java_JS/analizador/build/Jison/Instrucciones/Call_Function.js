@@ -36,10 +36,12 @@ class Call_Function extends instruccion_1.Instruccion {
     traducir() {
         try {
             var parametros = '';
+            var pam = '';
             for (let par of this.parametros) {
-                parametros += par.traducir();
+                parametros += par.traducir()+ ",";
             }
-            return `\npublic ${this.tipo} ${this.identificador} (${parametros});\n`;  
+            pam = parametros.substring(0,parametros.length-1);
+            return `\npublic ${this.tipo} ${this.identificador} (${pam});\n`;  
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error); 
         }

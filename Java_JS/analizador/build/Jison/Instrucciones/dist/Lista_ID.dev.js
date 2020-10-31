@@ -32,48 +32,57 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
-var Asignacion =
+var Lista_ID =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
-  _inherits(Asignacion, _instruccion_1$Instru);
+  _inherits(Lista_ID, _instruccion_1$Instru);
 
-  function Asignacion(identificador, expresion, linea, columna) {
+  function Lista_ID(tipo, identificador, linea, columna) {
     var _this;
 
-    _classCallCheck(this, Asignacion);
+    _classCallCheck(this, Lista_ID);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Asignacion).call(this, linea, columna));
-    console.log("ENTRO A ASIGACION");
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Lista_ID).call(this, linea, columna));
+    console.log("ENTRO A LISTA DE IDS");
     _this.identificador = identificador;
-    _this.expresion = expresion;
+    _this.tipo = tipo;
     return _this;
   }
 
-  _createClass(Asignacion, [{
+  _createClass(Lista_ID, [{
     key: "getNodo",
     value: function getNodo() {
       try {
-        var nodo = new nodoAST_1["default"]("ASIGNACION");
-        nodo.agregarHijo(this.identificador);
-        nodo.agregarHijo2(this.expresion.getNodo());
+        var nodo = new nodoAST_1["default"]("IDS");
+        nodo.agregarHijo(this.tipo);
+        nodo.agregarHijo2(this.identificador.getNodo());
         return nodo;
       } catch (error) {
-        console.log("GETNODO_EXC:" + error);
+        console.log("LID_GETNODO_EXC:" + error);
       }
     }
   }, {
     key: "traducir",
     value: function traducir() {
       try {
-        var value = this.expresion.traducir();
-        return "".concat(this.identificador, " = ").concat(value, " ;");
+        var id = "";
+        var pam = "";
+        console.log(this.tipo);
+        console.log(this.identificador);
+
+        if (this.identificador == undefined) {
+          console.log("ESTO ES UNDEFINED");
+          console.log("UNDEFINED:" + this.tipo);
+        }
+
+        return "".concat(this.tipo, " = ").concat(this.identificador.traducir());
       } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
+        console.log("LID_TRADUCIR_EXC:" + error);
       }
     }
   }]);
 
-  return Asignacion;
+  return Lista_ID;
 }(instruccion_1.Instruccion);
 
-exports["default"] = Asignacion;
+exports["default"] = Lista_ID;

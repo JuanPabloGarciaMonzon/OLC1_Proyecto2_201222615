@@ -32,30 +32,27 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
-var Asignacion =
+var Excepcion =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
-  _inherits(Asignacion, _instruccion_1$Instru);
+  _inherits(Excepcion, _instruccion_1$Instru);
 
-  function Asignacion(identificador, expresion, linea, columna) {
+  function Excepcion(tipo, linea, columna) {
     var _this;
 
-    _classCallCheck(this, Asignacion);
+    _classCallCheck(this, Excepcion);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Asignacion).call(this, linea, columna));
-    console.log("ENTRO A ASIGACION");
-    _this.identificador = identificador;
-    _this.expresion = expresion;
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Excepcion).call(this, linea, columna));
+    _this.tipo = tipo;
     return _this;
   }
 
-  _createClass(Asignacion, [{
+  _createClass(Excepcion, [{
     key: "getNodo",
     value: function getNodo() {
       try {
-        var nodo = new nodoAST_1["default"]("ASIGNACION");
-        nodo.agregarHijo(this.identificador);
-        nodo.agregarHijo2(this.expresion.getNodo());
+        var nodo = new nodoAST_1["default"]("EXCEPCION");
+        nodo.excepcion();
         return nodo;
       } catch (error) {
         console.log("GETNODO_EXC:" + error);
@@ -65,15 +62,14 @@ function (_instruccion_1$Instru) {
     key: "traducir",
     value: function traducir() {
       try {
-        var value = this.expresion.traducir();
-        return "".concat(this.identificador, " = ").concat(value, " ;");
+        return "";
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }
     }
   }]);
 
-  return Asignacion;
+  return Excepcion;
 }(instruccion_1.Instruccion);
 
-exports["default"] = Asignacion;
+exports["default"] = Excepcion;

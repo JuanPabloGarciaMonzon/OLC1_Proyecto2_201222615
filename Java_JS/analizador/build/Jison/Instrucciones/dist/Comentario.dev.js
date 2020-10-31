@@ -51,8 +51,8 @@ function (_instruccion_1$Instru) {
     key: "getNodo",
     value: function getNodo() {
       try {
-        var nodo = new nodoAST_1["default"]("COMENTARIO");
-        nodo.comentario();
+        var nodo = new nodoAST_1["default"]("EXCEPCION");
+        nodo.excepcion();
         return nodo;
       } catch (error) {
         console.log("GETNODO_EXC:" + error);

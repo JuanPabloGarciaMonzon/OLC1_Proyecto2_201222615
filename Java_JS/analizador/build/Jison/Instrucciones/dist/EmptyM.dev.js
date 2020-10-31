@@ -32,30 +32,62 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
-var Asignacion =
+var EmptyM =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
-  _inherits(Asignacion, _instruccion_1$Instru);
+  _inherits(EmptyM, _instruccion_1$Instru);
 
-  function Asignacion(identificador, expresion, linea, columna) {
+  function EmptyM(identificador, parametros, linea, columna) {
     var _this;
 
-    _classCallCheck(this, Asignacion);
+    _classCallCheck(this, EmptyM);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Asignacion).call(this, linea, columna));
-    console.log("ENTRO A ASIGACION");
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EmptyM).call(this, linea, columna));
     _this.identificador = identificador;
-    _this.expresion = expresion;
+    _this.parametros = parametros;
     return _this;
   }
 
-  _createClass(Asignacion, [{
+  _createClass(EmptyM, [{
     key: "getNodo",
     value: function getNodo() {
       try {
-        var nodo = new nodoAST_1["default"]("ASIGNACION");
+        var nodo = new nodoAST_1["default"]("METODO");
+        nodo.agregarHijo("public");
+        nodo.agregarHijo("void");
         nodo.agregarHijo(this.identificador);
-        nodo.agregarHijo2(this.expresion.getNodo());
+        nodo.agregarHijo("(");
+        var par = new nodoAST_1["default"]("PARAMETRO");
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = this.parametros[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var m = _step.value;
+            par.agregarHijo2(m.getNodo());
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        nodo.agregarHijo2(par);
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+        var el = new nodoAST_1["default"]("EXCEPCION");
+        nodo.excepcion();
+        nodo.agregarHijo("}");
         return nodo;
       } catch (error) {
         console.log("GETNODO_EXC:" + error);
@@ -65,15 +97,41 @@ function (_instruccion_1$Instru) {
     key: "traducir",
     value: function traducir() {
       try {
-        var value = this.expresion.traducir();
-        return "".concat(this.identificador, " = ").concat(value, " ;");
+        var parametro = '';
+        var pam = '';
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = this.parametros[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var par = _step2.value;
+            parametro += par.traducir() + ",";
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+              _iterator2["return"]();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+
+        pam = parametro.substring(0, parametro.length - 1);
+        return "public void ".concat(this.identificador, " (").concat(pam, ")\n {\n}\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }
     }
   }]);
 
-  return Asignacion;
+  return EmptyM;
 }(instruccion_1.Instruccion);
 
-exports["default"] = Asignacion;
+exports["default"] = EmptyM;

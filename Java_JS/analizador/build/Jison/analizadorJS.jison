@@ -322,7 +322,8 @@
 
 /lex
 
-%{   
+%{  
+    //EXPRESIONES
     const Aritmetica         = require('./Expresiones/Aritmetica');
     const Contador           = require('./Expresiones/Contador');
     const Identificador      = require('./Expresiones/Identificador');
@@ -330,7 +331,7 @@
     const Parentesis         = require('./Expresiones/Parentesis');
     const Primitivo          = require('./Expresiones/Primitivo');
     const Relacional         = require('./Expresiones/Relacional');
-
+    //INSTRUCCIONES
     const Asignacion         = require('./Instrucciones/Asignacion');
     const Break              = require('./Instrucciones/Break');
     const Call_Function      = require('./Instrucciones/Call_Function');
@@ -339,12 +340,14 @@
     const Continue           = require('./Instrucciones/Continue');
     const Declaracion        = require('./Instrucciones/Declaracion');
     const Do_While           = require('./Instrucciones/Do_While');
+    const Excepcion          = require('./Instrucciones/Excepcion');
+    const EmptyM             = require('./Instrucciones/EmptyM');
     const For                = require('./Instrucciones/For');
     const Funcion_Main       = require('./Instrucciones/Funcion_Main');
     const Funcion            = require('./Instrucciones/Funcion');
     const If                 = require('./Instrucciones/If');
     const Interface          = require('./Instrucciones/Interface');
-    const Lista_Par          = require('./Instrucciones/Lista_Par');
+    const Lista_ID          = require('./Instrucciones/Lista_ID');
     const Main               = require('./Instrucciones/Main');
     const Metodo             = require('./Instrucciones/Metodo');
     const Parametros         = require('./Instrucciones/Parametros');
@@ -381,8 +384,8 @@ SD
 ;
 
 CLASE_INT
-        :r_public r_class     identificador s_llave_abre L_INSTRUCCIONES s_llave_cierra{$$ = new Clase.default($3, $5, @1.first_line, @1.first_column);}
-        |r_public r_interface identificador s_llave_abre L_INSTRUCCIONES s_llave_cierra{$$ = new Clase.default($3, $5, @1.first_line, @1.first_column);}
+        :r_public r_class     identificador  BLOQUE{$$ = new Clase.default($3, $4, @1.first_line, @1.first_column);}
+        |r_public r_interface identificador s_llave_abre L_INSTRUCCIONES_I s_llave_cierra{$$ = new Interface.default($3, $5, @1.first_line, @1.first_column);}
         |COMENTARIO{$$ = $1;}
 
 ;
@@ -424,8 +427,14 @@ L_INSTRUCCIONES
                 |CALL_F{$$ = $1;}
                 |COMENTARIO{$$ = $1;}
                 |PANICO{$$ = $1;}
+                
         ;
 //-------------------------------------------------------------//
+L_INSTRUCCIONES_I
+        :L_INSTRUCCIONES_I INSTRUCCIONES_I{$1.push($2); $$ = $1;}
+        |INSTRUCCIONES_I{$$ = [$1];}
+;
+
 
 L_INSTRUCCIONES_F
         :L_INSTRUCCIONES_F INSTRUCCIONES_F{$1.push($2); $$ = $1;}
@@ -438,7 +447,7 @@ L_INSTRUCCIONES_M
 ;
 
 //-------------------------------------------------------------//
-INSTRUCCIONES_M
+INSTRUCCIONES_I
         :FORD s_pyc {$$ = $1;}
         |CONTADOR s_pyc {$$ = $1;}
         |PRINT s_pyc {$$ = $1;}
@@ -452,6 +461,23 @@ INSTRUCCIONES_M
         |COMENTARIO{$$ = $1;}
         |PANICO{$$ = $1;}
 ;
+
+INSTRUCCIONES_M
+        :FORD s_pyc {$$ = $1;}
+        |VACIO{}
+        |CONTADOR s_pyc {$$ = $1;}
+        |PRINT s_pyc {$$ = $1;}
+        |SENTENCIA_IF {$$ = $1;}
+        |SENTENCIA_WHILE{$$ = $1;}
+        |SENTENCIA_DOWHILE{$$ = $1;}
+        |SENTENCIA_FOR{$$ = $1;}
+        |BREAK{$$ = $1;}
+        |CONTINUE{$$ = $1;}
+        |CALL_F{$$ = $1;}
+        |COMENTARIO{$$ = $1;}
+        |PANICO{$$ = $1;}
+;
+
 
 INSTRUCCIONES_F
         :FORD s_pyc {$$ = $1;}
@@ -520,7 +546,7 @@ PRINT
 //-------------------------------------------------------------//
 METODO
         :r_public r_void identificador '('PARAMETROS')'  BLOQUE_METODO{$$ = new Metodo.default($3,$5,$7, @1.first_line, @1.first_column); }
-
+        |r_public r_void identificador '('PARAMETROS')' s_llave_abre s_llave_cierra{$$ = new EmptyM.default($3,$5, @1.first_line, @1.first_column); }
 ;
 
 FUNCION
@@ -541,26 +567,28 @@ CALL_F
 ;
 //-------------------------------------------------------------//
 BLOQUE
-        :s_llave_abre s_llave_cierra{}
-        |s_llave_abre L_INSTRUCCIONES s_llave_cierra  {$$ = $2;}
+        :s_llave_abre L_INSTRUCCIONES s_llave_cierra  {$$ = $2;}
 
 ;
 
 BLOQUE_METODO
-        :s_llave_abre s_llave_cierra{}
-        |s_llave_abre L_INSTRUCCIONES_M s_llave_cierra  {$$ = $2;}
+        :s_llave_abre L_INSTRUCCIONES_M s_llave_cierra  {$$ = $2;}
 
 ;
 
 BLOQUE_FUNCION
-        :s_llave_abre s_llave_cierra{}
-        |s_llave_abre L_INSTRUCCIONES_F s_llave_cierra  {$$ = $2;}
+        :s_llave_abre L_INSTRUCCIONES_F s_llave_cierra  {$$ = $2;}
 
 ;
 //-------------------------------------------------------------//
 LISTAID
-        :LISTAID s_coma ASIGNACION {$1.push($3); $$ = $1;}
-        |ASIGNACION{$$ = [$1];}
+        :LISTAID s_coma IDS {$1.push($3); $$ = $1; console.log("LISTAID:"+$$);}
+        |IDS{$$ = [$1];}
+;
+
+IDS
+        :identificador '=' E {$$ = new Lista_ID.default($1,$3,@1.first_line, @1.first_column);console.log("ID:"+$1);console.log("ID:"+$3);}
+        |identificador {$$ = new Identificador.default($1, @1.first_line, @1.first_column);console.log("ID:"+$1);}
 ;
 //-------------------------------------------------------------//
 PARAMETROS
@@ -570,6 +598,7 @@ PARAMETROS
 
 PARAM
         :TIPO E{$$ = new Parametros.default($1,$2,@1.first_line, @1.first_column);}
+        |{$$ = new Excepcion.default("VACIO",@1.first_line, @1.first_column);}
 ;
 //-------------------------------------------------------------//
 TIPO

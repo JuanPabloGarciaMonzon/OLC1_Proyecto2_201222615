@@ -116,17 +116,14 @@ function () {
           error: error,
           token: token
         });
+        errorReport(error);
+        tokenReport(token);
       } catch (err) {
         console.log(err);
         res.send({
           error: err
         });
       }
-    }
-  }, {
-    key: "getError",
-    value: function getError(Error) {
-      console.log(Error);
     }
   }]);
 
@@ -157,8 +154,8 @@ function recorrerAST(padre, nPadre) {
       for (var _iterator3 = nPadre.getHijos()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
         var hijo = _step3.value;
 
-        if (hijo.getValor() == "COMENTARIO") {
-          console.log("ESTO ES UN COMENTARIO");
+        if (hijo.getValor() == "EXCEPCION") {
+          console.log("ESTO ES UNA EXCEPCION");
         } else {
           var nombreHijo = "n" + c;
           dot += nombreHijo + "[label=\"" + hijo.getValor().replace("\"", "\\\"") + "\"];\n";
@@ -184,6 +181,75 @@ function recorrerAST(padre, nPadre) {
   } catch (error) {
     console.log("RECORRER_AST:" + error);
   }
+}
+
+function errorReport(lista_error) {
+  // Abrir nuevo tab
+  var verrores = "";
+  var error_report = "";
+  var _iteratorNormalCompletion4 = true;
+  var _didIteratorError4 = false;
+  var _iteratorError4 = undefined;
+
+  try {
+    for (var _iterator4 = lista_error[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+      var er = _step4.value;
+      verrores += "<tr>\n" + "<td>" + er[0] + "</td>\n" + "<td>" + er[4] + "</td>\n" + "<td>" + er[2] + "</td>\n" + "<td>" + er[3] + "</td>\n" + "<td>" + "El caracter" + " " + er[1] + " " + "no pertenece al lenguaje" + "</td>\n" + "</tr>\n";
+    }
+  } catch (err) {
+    _didIteratorError4 = true;
+    _iteratorError4 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
+        _iterator4["return"]();
+      }
+    } finally {
+      if (_didIteratorError4) {
+        throw _iteratorError4;
+      }
+    }
+  }
+
+  var fs = require('fs'); // Cambiar el foco al nuevo tab (punto opcional)
+
+
+  error_report = "<style>\n" + "table {\n" + "font-family: arial, sans-serif;\n" + "border: 1px solid #dddddd;\n" + "width: 100%;\n" + "}\n" + "td, th {\n" + "border: 1px solid #dddddd;\n" + "text-align: left;\n" + "padding: 8px;\n" + "}\n" + "th{\n" + "background-color:#2196F3;\n" + "color: white;\n" + "}\n" + "</style>" + "<h2>TABLA DE ERRORES</h2>\n" + "<table>\n" + "<tr>\n" + "<th>NO.</th>\n" + "<th>TIPO</th>\n" + "<th>FILA</th>\n" + "<th>COLUMNA</th>\n" + "<th>DESCRIPCION</th>\n" + "</tr>\n" + verrores + "</table>";
+  fs.writeFileSync('./error.html', error_report);
+}
+
+function tokenReport(lista_token) {
+  var vartoken = "";
+  var token_report = "";
+  var _iteratorNormalCompletion5 = true;
+  var _didIteratorError5 = false;
+  var _iteratorError5 = undefined;
+
+  try {
+    for (var _iterator5 = lista_token[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+      var tk = _step5.value;
+      vartoken += "<tr>\n" + "<td>" + tk[0] + "</td>\n" + "<td>" + tk[1] + "</td>\n" + "<td>" + tk[2] + "</td>\n" + "<td>" + tk[3] + "</td>\n" + "<td>" + tk[4] + "</td>\n" + "</tr>\n";
+    }
+  } catch (err) {
+    _didIteratorError5 = true;
+    _iteratorError5 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
+        _iterator5["return"]();
+      }
+    } finally {
+      if (_didIteratorError5) {
+        throw _iteratorError5;
+      }
+    }
+  }
+
+  var fs = require('fs'); // Cambiar el foco al nuevo tab (punto opcional)
+
+
+  token_report = "<style>\n" + "table {\n" + "font-family: arial, sans-serif;\n" + "border: 1px solid #dddddd;\n" + "width: 100%;\n" + "}\n" + "td, th {\n" + "border: 1px solid #dddddd;\n" + "text-align: left;\n" + "padding: 8px;\n" + "}\n" + "th{\n" + "background-color:#2196F3;\n" + "color: white;\n" + "}\n" + "</style>" + "<h2>TABLA DE TOKENS</h2>\n" + "<table>\n" + "<tr>\n" + "<th>NO.</th>\n" + "<th>FILA</th>\n" + "<th>COLUMNA</th>\n" + "<th>TIPO</th>\n" + "<th>DESCRIPCION</th>\n" + "</tr>\n" + vartoken + "</table>";
+  fs.writeFileSync('./token.html', token_report);
 }
 
 exports.gramaticaController = new gramaticacontroller();

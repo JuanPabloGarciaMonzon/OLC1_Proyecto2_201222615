@@ -12,9 +12,8 @@ class nodoAST {
     agregarHijo(cad) {
         this.hijos.push(new nodoAST(cad));
     }
-
-    comentario() {
-        console.log("COMENTARIO")
+    excepcion() {
+        console.log("EXCEPCION")
     }
     agregarHijos(hijos) {
         for (let hijo of hijos) {

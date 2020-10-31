@@ -32,9 +32,9 @@ function () {
       this.hijos.push(new nodoAST(cad));
     }
   }, {
-    key: "comentario",
-    value: function comentario() {
-      console.log("COMENTARIO");
+    key: "excepcion",
+    value: function excepcion() {
+      console.log("EXCEPCION");
     }
   }, {
     key: "agregarHijos",
