@@ -2,6 +2,7 @@
 
 function traducir() {
   var entrada = document.getElementById('entrada');
+  var graph = document.getElementById('graph');
   var data = {
     entrada: entrada.value
   };
@@ -18,6 +19,7 @@ function traducir() {
       console.log(data.traduccion);
       document.getElementById('salida').innerHTML = data.traduccion;
       console.log(data.arbol);
+      d3.select(graph).graphviz().renderDot(data.arbol);
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;

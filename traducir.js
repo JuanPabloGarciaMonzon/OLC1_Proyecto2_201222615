@@ -1,6 +1,7 @@
 function traducir() 
 {
     var entrada = document.getElementById('entrada');
+    var graph = document.getElementById('graph');
 
     var data = {entrada:entrada.value}
     const Http = new XMLHttpRequest();
@@ -17,6 +18,8 @@ function traducir()
             document.getElementById('salida').innerHTML = data.traduccion;
 
             console.log(data.arbol);
+            d3.select(graph).graphviz()
+            .renderDot(data.arbol);
             for (let er of data.error) {
                 error += er;
             }
