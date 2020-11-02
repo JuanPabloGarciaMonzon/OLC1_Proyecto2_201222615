@@ -2,7 +2,6 @@ function traducir()
 {
     var entrada = document.getElementById('entrada');
     var graph = document.getElementById('graph');
-
     var data = {entrada:entrada.value}
     const Http = new XMLHttpRequest();
     Http.open("POST",`http://localhost:3000/jison`, true);
@@ -23,12 +22,7 @@ function traducir()
                 hiddenElement.download = 'myFile.txt';
                 hiddenElement.click();
             });
-
-
-
-
             document.getElementById('salida').innerHTML = data.traduccion;
-
             console.log(data.arbol);
             d3.select(graph).graphviz()
             .renderDot(data.arbol);
@@ -41,16 +35,6 @@ function traducir()
                 token += tk;
             }
             console.log(token);
-
-            
-
         }
     }
-
-    
-
 }
-
-  
-  
-  

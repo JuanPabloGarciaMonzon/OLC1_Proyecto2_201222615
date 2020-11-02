@@ -22,6 +22,11 @@
 
     <script src="js/id/uuid.min.js"></script>
     <script src="js/FileSaver.js"></script>
+    <script src="js/traducir.js"></script>
+    <!--D3 GRAPHVIZ IMPORTS-->
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+    <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+    <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>   
 
 </head>
 
@@ -39,7 +44,7 @@
     
                 <a id="guardar" class="guardar"   style ="font-size: xx-large;" onclick="saveFile()" href="javascript:void(0)">Guardar</a>
                 <a id="guardar" class="guardar"   style ="font-size: xx-large;" onclick="saveFile()" href="javascript:void(0)">Guardar Como</a>
-                <a id="analizar" class="analizar" style ="font-size: xx-large;"onclick="analizar()" href="javascript:void(0)">Analizar</a>
+                <a id="analizar" class="analizar" style ="font-size: xx-large;" onclick = "traducir()"  href="javascript:void(0)">Analizar</a>
                 <!--<a id="limpiar_a" class="limpiar_a" onclick="limpiar_a()" href="javascript:void(0)">Limpiar Analisis</a>-->
             </div>
         </li>
@@ -47,9 +52,9 @@
         <li class="dropdown">
             <a class="linkarchivo" href="javascript:void(0)" style ="font-size: xx-large;" class="dropbtn">Descargar</a>
             <div class="dropdown-content">
-                <input type="button" id="btn" value="Download" /> 
-                <a id="rep_ast" class="rep_ast" style ="font-size: xx-large;" onclick='' href="javascript:void(0)">JavaScript</a>
-                <a id="copia_class" class="copia_class" style ="font-size: xx-large;" onclick='' href="javascript:void(0)">Python</a>
+                <a id="btnjs" class="rep_ast" style ="font-size: xx-large;" href="javascript:void(0)">JavaScript</a>
+                <a id="python" class="copia_class" style ="font-size: xx-large;" onclick='' href="javascript:void(0)">Python</a>
+                <a id="ambos" class="copia_class" style ="font-size: xx-large;" onclick='' href="javascript:void(0)">Ambos</a>
             </div>
         </li>
     
@@ -149,6 +154,7 @@
 
     <br>
     <br>
+
     <div class = "b">
         <label>JAVASCRIPT</label>
         <textarea id="txt_js" autofocus="true" ></textarea>
@@ -157,6 +163,14 @@
     </div>
     <br>
     <br>
+    
+    <center>
+        <label  style="font-size: xx-large;font-family:Verdana">__________________________________________________AST________________________________________________________________</label>   
+        <br>
+        <br>
+        <div id="graph"></div>  </center>
+    
+
     <script>
         var editorJs = CodeMirror.fromTextArea
         (document.getElementById("txt_js"),{
@@ -167,7 +181,9 @@
 
             
         });    
-    </script>    
+    </script>
+
+      
 <!------------------------------------------------------------------------------------>
 
 
