@@ -51,7 +51,7 @@ class Funcion extends instruccion_1.Instruccion {
                 parametros += par.traducir() + ",";        
             }
             pam = parametros.substring(0,parametros.length-1);
-            return `public ${this.tipo} ${this.identificador} (${pam})\n {\n${instrucciones}\n}\n`;   
+            return `\nfunction ${this.identificador} (${pam})\n {\n${instrucciones}\n}\n`;   
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);  
         }

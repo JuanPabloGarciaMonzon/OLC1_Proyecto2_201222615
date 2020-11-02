@@ -23,7 +23,7 @@ class Comentario extends instruccion_1.Instruccion {
     }
     traducir() {
         try {
-            return `${this.comentario} \n`;  
+            return `\n${this.comentario} \n`;  
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);    
         }

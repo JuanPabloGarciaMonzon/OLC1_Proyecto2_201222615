@@ -24,7 +24,7 @@ class Return extends instruccion_1.Instruccion {
     }
     traducir() {
         try {
-            return `return ${this.instrucciones.traducir()};\n`;  
+            return `\nreturn ${this.instrucciones.traducir()};\n`;  
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);  
         }

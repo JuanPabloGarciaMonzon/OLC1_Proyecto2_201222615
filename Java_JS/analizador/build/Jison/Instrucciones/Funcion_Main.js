@@ -13,7 +13,7 @@ class Funcion_Main extends instruccion_1.Instruccion {
     }
     getNodo() {
         try {
-            var nodo = new nodoAST_1.default("FUNCION_MAIN");
+            var nodo = new nodoAST_1.default("MAIN");
             nodo.agregarHijo("public");
             nodo.agregarHijo("static");
             nodo.agregarHijo("void");
@@ -48,7 +48,7 @@ class Funcion_Main extends instruccion_1.Instruccion {
             for (let par of this.parametros) {
                 parametros += par.traducir();
             }
-            return `public static void main (${parametros})\n {\n${instrucciones}\n}\n`;     
+            return `\npublic static void main (${parametros})\n {\n${instrucciones}\n}\n`;     
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);   
         }

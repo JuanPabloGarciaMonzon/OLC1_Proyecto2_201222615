@@ -38,7 +38,7 @@ class Clase extends instruccion_1.Instruccion {
             for (let instr of this.instrucciones) {
                 instrucciones += instr.traducir();
             }
-            return `public class ${this.identificador} {\n${instrucciones}}\n`; 
+            return `\nclass ${this.identificador} {\n${instrucciones}}\n`; 
         } catch (error) {
             console.log("CLASE_TRADUCIR_EXC:"+error);
         }

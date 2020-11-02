@@ -124,7 +124,7 @@ function (_instruccion_1$Instru) {
           }
         }
 
-        return "public static void main (String [] args){\n".concat(instrucciones, "\n}\n");
+        return "\npublic static void main (String [] args){\n".concat(instrucciones, "\n}\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

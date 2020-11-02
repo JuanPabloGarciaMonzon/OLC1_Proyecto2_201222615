@@ -117,7 +117,7 @@ function (_instruccion_1$Instru) {
         }
 
         pam = lista.substring(0, lista.length - 1);
-        return "".concat(this.tipo, " ").concat(pam, ";");
+        return "var ".concat(pam, ";");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

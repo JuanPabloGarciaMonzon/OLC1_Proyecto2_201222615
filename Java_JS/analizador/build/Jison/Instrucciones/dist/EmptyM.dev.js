@@ -85,8 +85,9 @@ function (_instruccion_1$Instru) {
         nodo.agregarHijo2(par);
         nodo.agregarHijo(")");
         nodo.agregarHijo("{");
-        var el = new nodoAST_1["default"]("EXCEPCION");
+        var par = new nodoAST_1["default"]("EXCEPCION");
         nodo.excepcion();
+        nodo.agregarHijo("INSTRUCCIONES");
         nodo.agregarHijo("}");
         return nodo;
       } catch (error) {
@@ -124,7 +125,7 @@ function (_instruccion_1$Instru) {
         }
 
         pam = parametro.substring(0, parametro.length - 1);
-        return "public void ".concat(this.identificador, " (").concat(pam, ")\n {\n}\n");
+        return "function ".concat(this.identificador, " (").concat(pam, ")\n {\n}\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

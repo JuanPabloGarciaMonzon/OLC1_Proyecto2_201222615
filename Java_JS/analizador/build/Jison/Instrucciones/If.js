@@ -48,9 +48,9 @@ class If extends instruccion_1.Instruccion {
                 elif.agregarHijo2(this.elseif.getNodo());
                 nodo.agregarHijo2(elif);
             }
-            return nodo;    
+            return nodo;  
         } catch (error) {
-            console.log("GETNODO_EXC:"+error);   
+            console.error(error);
         }
 
     }
@@ -64,7 +64,7 @@ class If extends instruccion_1.Instruccion {
             }
             val += `if ( ${condicion} ) {\n${instruccionesIF} }`;
             if (this.elseif != undefined) {
-                val += `else if ${this.elseif.traducir()}`;
+                val += `else ${this.elseif.traducir()}`;
             }
             else if (this.instruccionesElse != undefined) {
                 var instruccionesELSE = '';
@@ -73,9 +73,9 @@ class If extends instruccion_1.Instruccion {
                 }
                 val += `else {\n${instruccionesELSE} }`;
             }
-            return val + '\n';  
+            return val + '\n';   
         } catch (error) {
-            console.log("TRADUCIR_EXC:"+error);  
+            console.log(error);
         }
 
     }

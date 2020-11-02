@@ -46,7 +46,7 @@ class For extends instruccion_1.Instruccion {
             for (let instr of this.instrucciones) {
                 instrucciones += instr.traducir();
             }
-            return `for ( ${condicion}${condicion1};${condicion2} ) {\n${instrucciones}\n}\n`;   
+            return `\nfor ( ${condicion}${condicion1};${condicion2} ) {\n${instrucciones}\n}\n`;   
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error); 
         }

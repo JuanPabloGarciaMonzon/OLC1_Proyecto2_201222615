@@ -37,7 +37,7 @@ class Declaracion extends instruccion_1.Instruccion {
                 lista += lst.traducir()+",";
             }
             pam = lista.substring(0,lista.length-1);
-            return `${this.tipo} ${pam};`;
+            return `var ${pam};`;
             
         } catch (error) {
 

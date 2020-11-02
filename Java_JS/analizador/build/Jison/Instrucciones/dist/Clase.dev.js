@@ -118,7 +118,7 @@ function (_instruccion_1$Instru) {
           }
         }
 
-        return "public class ".concat(this.identificador, " {\n").concat(instrucciones, "}\n");
+        return "\nclass ".concat(this.identificador, " {\n").concat(instrucciones, "}\n");
       } catch (error) {
         console.log("CLASE_TRADUCIR_EXC:" + error);
       }

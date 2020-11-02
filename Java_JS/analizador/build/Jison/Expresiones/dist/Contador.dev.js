@@ -59,7 +59,7 @@ function (_instruccion_1$Instru) {
   }, {
     key: "traducir",
     value: function traducir() {
-      return "".concat(this.operando1, " ").concat(this.operador, " \";\"");
+      return "\n".concat(this.operando1).concat(this.operador, ";\n");
     }
   }]);
 

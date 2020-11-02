@@ -52,7 +52,7 @@ function (_instruccion_1$Instru) {
     key: "getNodo",
     value: function getNodo() {
       try {
-        var nodo = new nodoAST_1["default"]("FUNCION_MAIN");
+        var nodo = new nodoAST_1["default"]("MAIN");
         nodo.agregarHijo("public");
         nodo.agregarHijo("static");
         nodo.agregarHijo("void");
@@ -172,7 +172,7 @@ function (_instruccion_1$Instru) {
           }
         }
 
-        return "public static void main (".concat(parametros, ")\n {\n").concat(instrucciones, "\n}\n");
+        return "\npublic static void main (".concat(parametros, ")\n {\n").concat(instrucciones, "\n}\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

@@ -32,24 +32,63 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
-var Continue =
+var EmptyFM =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
-  _inherits(Continue, _instruccion_1$Instru);
+  _inherits(EmptyFM, _instruccion_1$Instru);
 
-  function Continue(linea, columna) {
-    _classCallCheck(this, Continue);
+  function EmptyFM(parametros, linea, columna) {
+    var _this;
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Continue).call(this, linea, columna));
+    _classCallCheck(this, EmptyFM);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EmptyFM).call(this, linea, columna));
+    _this.parametros = parametros;
+    return _this;
   }
 
-  _createClass(Continue, [{
+  _createClass(EmptyFM, [{
     key: "getNodo",
     value: function getNodo() {
       try {
-        var nodo = new nodoAST_1["default"]("CONTINUE");
-        nodo.agregarHijo("continue");
-        nodo.agregarHijo(";");
+        var nodo = new nodoAST_1["default"]("MAIN");
+        nodo.agregarHijo("public");
+        nodo.agregarHijo("static");
+        nodo.agregarHijo("void");
+        nodo.agregarHijo("main");
+        nodo.agregarHijo("(");
+        var par = new nodoAST_1["default"]("PARAMETRO");
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = this.parametros[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var m = _step.value;
+            par.agregarHijo2(m.getNodo());
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        nodo.agregarHijo2(par);
+        nodo.agregarHijo(")");
+        nodo.agregarHijo("{");
+        var par = new nodoAST_1["default"]("EXCEPCION");
+        nodo.excepcion();
+        nodo.agregarHijo("INSTRUCCIONES");
+        nodo.agregarHijo("}");
         return nodo;
       } catch (error) {
         console.log("GETNODO_EXC:" + error);
@@ -59,14 +98,41 @@ function (_instruccion_1$Instru) {
     key: "traducir",
     value: function traducir() {
       try {
-        return "\ncontinue;\n";
+        var parametro = '';
+        var pam = '';
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = this.parametros[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var par = _step2.value;
+            parametro += par.traducir() + ",";
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+              _iterator2["return"]();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+
+        pam = parametro.substring(0, parametro.length - 1);
+        return "public static void main (".concat(pam, ")\n {\n}\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }
     }
   }]);
 
-  return Continue;
+  return EmptyFM;
 }(instruccion_1.Instruccion);
 
-exports["default"] = Continue;
+exports["default"] = EmptyFM;

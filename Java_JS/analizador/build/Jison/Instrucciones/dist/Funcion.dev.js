@@ -175,7 +175,7 @@ function (_instruccion_1$Instru) {
         }
 
         pam = parametros.substring(0, parametros.length - 1);
-        return "public ".concat(this.tipo, " ").concat(this.identificador, " (").concat(pam, ")\n {\n").concat(instrucciones, "\n}\n");
+        return "\nfunction ".concat(this.identificador, " (").concat(pam, ")\n {\n").concat(instrucciones, "\n}\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

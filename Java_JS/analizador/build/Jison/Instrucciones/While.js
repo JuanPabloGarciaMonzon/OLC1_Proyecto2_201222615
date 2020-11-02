@@ -38,7 +38,7 @@ class While extends instruccion_1.Instruccion {
             for (let instr of this.instrucciones) {
                 instrucciones += instr.traducir();
             }
-            return `while ( ${condicion} ) {\n${instrucciones}\n}\n`;   
+            return `\nwhile ( ${condicion} ) {\n${instrucciones}\n}\n`;   
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);  
         }

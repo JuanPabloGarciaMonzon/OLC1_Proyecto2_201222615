@@ -22,7 +22,7 @@ class Break extends instruccion_1.Instruccion {
     }
     traducir() {
         try {
-            return `break;\n`;   
+            return `\nbreak;\n`;   
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error); 
         }

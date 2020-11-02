@@ -128,7 +128,7 @@ function (_instruccion_1$Instru) {
           }
         }
 
-        return "for ( ".concat(condicion).concat(condicion1, ";").concat(condicion2, " ) {\n").concat(instrucciones, "\n}\n");
+        return "\nfor ( ".concat(condicion).concat(condicion1, ";").concat(condicion2, " ) {\n").concat(instrucciones, "\n}\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

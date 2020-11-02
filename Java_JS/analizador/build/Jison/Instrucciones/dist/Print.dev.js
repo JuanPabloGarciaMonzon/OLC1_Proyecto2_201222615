@@ -63,7 +63,7 @@ function (_instruccion_1$Instru) {
     value: function traducir() {
       try {
         var value = this.expresion.traducir();
-        return "console.log( ".concat(value, " );\n");
+        return "\nconsole.log( ".concat(value, " );\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

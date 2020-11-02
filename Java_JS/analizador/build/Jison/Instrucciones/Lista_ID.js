@@ -15,7 +15,7 @@ class Lista_ID extends instruccion_1.Instruccion {
     }
     getNodo() {
         try {
-            var nodo = new nodoAST_1.default("IDS");
+            var nodo = new nodoAST_1.default("ASIGNACION");
             nodo.agregarHijo(this.tipo);
             nodo.agregarHijo2(this.identificador.getNodo());
             return nodo;   

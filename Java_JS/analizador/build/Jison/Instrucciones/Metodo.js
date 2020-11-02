@@ -55,7 +55,7 @@ class Metodo extends instruccion_1.Instruccion {
                 parametro += par.traducir()+ ",";
             }
             pam = parametro.substring(0,parametro.length-1);
-            return `public void ${this.identificador} (${pam})\n {\n${instrucc}\n}\n`;   
+            return `\nfunction ${this.identificador} (${pam})\n {\n${instrucc}\n}\n`;   
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);   
         }

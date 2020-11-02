@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../Abstract/instruccion");
 const nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 class Logica extends instruccion_1.Instruccion {
-    constructor(operador, fila, columna, operando1, operando2) {
+    constructor(operando1, operando2,operador, fila, columna) {
         super(fila, columna);
         this.operador = operador;
         if (!operando2) {

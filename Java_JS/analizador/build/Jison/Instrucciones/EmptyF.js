@@ -5,15 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../Abstract/instruccion");
 const nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
-class EmptyM extends instruccion_1.Instruccion {
-    constructor(identificador, parametros, linea, columna) {
+class EmptyF extends instruccion_1.Instruccion {
+    constructor(tipo,identificador, parametros, linea, columna) {
         super(linea, columna);
+        this.tipo = tipo;
         this.identificador = identificador;
         this.parametros = parametros;
     }
     getNodo() {
         try {
-            var nodo = new nodoAST_1.default("METODO");
+            var nodo = new nodoAST_1.default("FUNCION");
             nodo.agregarHijo("public");
             nodo.agregarHijo("void");
             nodo.agregarHijo(this.identificador);
@@ -53,5 +54,5 @@ class EmptyM extends instruccion_1.Instruccion {
 
     }
 }
-exports.default = EmptyM;
+exports.default = EmptyF;
 //# sourceMappingURL=Metodo.js.map

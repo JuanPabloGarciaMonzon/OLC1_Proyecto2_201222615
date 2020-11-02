@@ -120,7 +120,7 @@ function (_instruccion_1$Instru) {
           }
         }
 
-        return "while ( ".concat(condicion, " ) {\n").concat(instrucciones, "\n}\n");
+        return "\nwhile ( ".concat(condicion, " ) {\n").concat(instrucciones, "\n}\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

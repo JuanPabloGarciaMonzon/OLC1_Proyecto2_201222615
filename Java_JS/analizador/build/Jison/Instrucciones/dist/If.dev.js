@@ -135,7 +135,7 @@ function (_instruccion_1$Instru) {
 
         return nodo;
       } catch (error) {
-        console.log("GETNODO_EXC:" + error);
+        console.error(error);
       }
     }
   }, {
@@ -172,7 +172,7 @@ function (_instruccion_1$Instru) {
         val += "if ( ".concat(condicion, " ) {\n").concat(instruccionesIF, " }");
 
         if (this.elseif != undefined) {
-          val += "else if ".concat(this.elseif.traducir());
+          val += "else ".concat(this.elseif.traducir());
         } else if (this.instruccionesElse != undefined) {
           var instruccionesELSE = '';
           var _iteratorNormalCompletion4 = true;
@@ -204,7 +204,7 @@ function (_instruccion_1$Instru) {
 
         return val + '\n';
       } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
+        console.log(error);
       }
     }
   }]);

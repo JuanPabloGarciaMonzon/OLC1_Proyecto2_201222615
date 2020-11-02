@@ -32,41 +32,40 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
-var Continue =
+var Nega_Contador =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
-  _inherits(Continue, _instruccion_1$Instru);
+  _inherits(Nega_Contador, _instruccion_1$Instru);
 
-  function Continue(linea, columna) {
-    _classCallCheck(this, Continue);
+  function Nega_Contador(negativo, operador, operando1, fila, columna) {
+    var _this;
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Continue).call(this, linea, columna));
+    _classCallCheck(this, Nega_Contador);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Nega_Contador).call(this, fila, columna));
+    _this.negativo = negativo;
+    _this.operador = operador;
+    _this.operando1 = operando1;
+    return _this;
   }
 
-  _createClass(Continue, [{
+  _createClass(Nega_Contador, [{
     key: "getNodo",
     value: function getNodo() {
-      try {
-        var nodo = new nodoAST_1["default"]("CONTINUE");
-        nodo.agregarHijo("continue");
-        nodo.agregarHijo(";");
-        return nodo;
-      } catch (error) {
-        console.log("GETNODO_EXC:" + error);
-      }
+      var nodo = new nodoAST_1["default"]("CONTADOR");
+      nodo.agregarHijo(this.negativo + "");
+      nodo.agregarHijo(this.operando1 + "");
+      nodo.agregarHijo(this.operador + "");
+      return nodo;
     }
   }, {
     key: "traducir",
     value: function traducir() {
-      try {
-        return "\ncontinue;\n";
-      } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
-      }
+      return "\n".concat(this.negativo).concat(this.operando1).concat(this.operador, ";\n");
     }
   }]);
 
-  return Continue;
+  return Nega_Contador;
 }(instruccion_1.Instruccion);
 
-exports["default"] = Continue;
+exports["default"] = Nega_Contador;

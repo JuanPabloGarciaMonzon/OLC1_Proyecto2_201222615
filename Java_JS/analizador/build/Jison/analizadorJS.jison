@@ -1,5 +1,4 @@
 /* lexical grammar */
-
 %{
         var contadorE = 0;
         var contadorT = 0;
@@ -8,9 +7,7 @@
         
         %}
 %lex
-
 %options case-insensitive
-
 %%
 \s+                   /* skip whitespace */
 "//".*					{
@@ -25,7 +22,6 @@
         }
 /***PALABRAS RESERVADAS*** */
 /* tipos de datos */
-
 "int"   {
         contadorT++;        
         lista_tokens.push([contadorT,yylloc.first_line,yylloc.first_column,"Int",yytext]);
@@ -290,7 +286,6 @@
         return 's_llave_cierra';
         }                       
 /*ER*/
-
 [0-9]+("."[0-9]+)?\b {
         contadorT++;        
         lista_tokens.push([contadorT,yylloc.first_line,yylloc.first_column,"RegexNumero",yytext]);
@@ -318,16 +313,14 @@
                 contadorE++;
                 lista_error.push([contadorE,yytext,yylloc.first_line,yylloc.first_column,"Lexico"]);
         }
-//return 'INVALID'
-
 /lex
-
 %{  
     //EXPRESIONES
     const Aritmetica         = require('./Expresiones/Aritmetica');
     const Contador           = require('./Expresiones/Contador');
     const Identificador      = require('./Expresiones/Identificador');
     const Logica             = require('./Expresiones/Logica');
+    const Nega_Contador      = require('./Expresiones/Nega_Contador');
     const Parentesis         = require('./Expresiones/Parentesis');
     const Primitivo          = require('./Expresiones/Primitivo');
     const Relacional         = require('./Expresiones/Relacional');
@@ -342,28 +335,25 @@
     const Do_While           = require('./Instrucciones/Do_While');
     const Excepcion          = require('./Instrucciones/Excepcion');
     const EmptyM             = require('./Instrucciones/EmptyM');
+    const EmptyF             = require('./Instrucciones/EmptyF');
+    const EmptyFM            = require('./Instrucciones/EmptyFM');
+    const EmptyC             = require('./Instrucciones/EmptyC');
+    const EmptyI             = require('./Instrucciones/EmptyI');
     const For                = require('./Instrucciones/For');
     const Funcion_Main       = require('./Instrucciones/Funcion_Main');
     const Funcion            = require('./Instrucciones/Funcion');
     const If                 = require('./Instrucciones/If');
     const Interface          = require('./Instrucciones/Interface');
-    const Lista_ID          = require('./Instrucciones/Lista_ID');
+    const Lista_ID           = require('./Instrucciones/Lista_ID');
     const Main               = require('./Instrucciones/Main');
     const Metodo             = require('./Instrucciones/Metodo');
     const Parametros         = require('./Instrucciones/Parametros');
     const Print              = require('./Instrucciones/Print');
-    const Return              = require('./Instrucciones/Return');
+    const Return             = require('./Instrucciones/Return');
     const While              = require('./Instrucciones/While');
-
-
 %}
 %start I
-%% /* language grammar */
-
-// At the top level, you explicitly return
-// the result. $1 refers to the first child node,
-// i.e. the "e"
-
+%% 
 I 
         :S EOF { var listaE = lista_error;
                  lista_error = [];
@@ -384,8 +374,10 @@ SD
 ;
 
 CLASE_INT
-        :r_public r_class     identificador  BLOQUE{$$ = new Clase.default($3, $4, @1.first_line, @1.first_column);}
-        |r_public r_interface identificador s_llave_abre L_INSTRUCCIONES_I s_llave_cierra{$$ = new Interface.default($3, $5, @1.first_line, @1.first_column);}
+        :r_public r_class     identificador BLOQUE{$$ = new Clase.default($3, $4, @1.first_line, @1.first_column);}
+        |r_public r_interface identificador BLOQUE_I{$$ = new Interface.default($3, $4, @1.first_line, @1.first_column);}
+        |r_public r_class     identificador s_llave_abre s_llave_cierra{$$ = new EmptyC.default($3, @1.first_line, @1.first_column);}
+        |r_public r_interface identificador s_llave_abre s_llave_cierra{$$ = new EmptyI.default($3, @1.first_line, @1.first_column);}        
         |COMENTARIO{$$ = $1;}
 
 ;
@@ -405,36 +397,17 @@ PANICO
         lista_error.push([contadorE,yytext,this._$.first_line,this._$.first_column,"Sintactico"]);
         }
 ;
-//-------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------//
 L_INSTRUCCIONES
         :L_INSTRUCCIONES INSTRUCCIONES{$1.push($2); $$ = $1;}
         |INSTRUCCIONES{$$ = [$1];}
 ;
-        INSTRUCCIONES
-                :FORD s_pyc {$$ = $1;}
-                |CONTADOR s_pyc {$$ = $1;}
-                |PRINT s_pyc {$$ = $1;}
-                |SENTENCIA_IF {$$ = $1;}
-                |SENTENCIA_WHILE{$$ = $1;}
-                |SENTENCIA_DOWHILE{$$ = $1;}
-                |SENTENCIA_FOR{$$ = $1;}
-                |BREAK{$$ = $1;}
-                |CONTINUE{$$ = $1;}
-                |RETURN{$$ = $1;}
-                |METODO {$$ = $1;}
-                |FUNCION {$$ = $1;}
-                |FUNCION_MAIN {$$ = $1;}
-                |CALL_F{$$ = $1;}
-                |COMENTARIO{$$ = $1;}
-                |PANICO{$$ = $1;}
-                
-        ;
-//-------------------------------------------------------------//
+
 L_INSTRUCCIONES_I
         :L_INSTRUCCIONES_I INSTRUCCIONES_I{$1.push($2); $$ = $1;}
         |INSTRUCCIONES_I{$$ = [$1];}
+        
 ;
-
 
 L_INSTRUCCIONES_F
         :L_INSTRUCCIONES_F INSTRUCCIONES_F{$1.push($2); $$ = $1;}
@@ -445,8 +418,26 @@ L_INSTRUCCIONES_M
         :L_INSTRUCCIONES_M INSTRUCCIONES_M{$1.push($2); $$ = $1;}
         |INSTRUCCIONES_M{$$ = [$1];}
 ;
+//--------------------------------------------------------------------------------------------//
+INSTRUCCIONES
+        :FORD s_pyc {$$ = $1;}
+        |CONTADOR s_pyc {$$ = $1;}
+        |PRINT s_pyc {$$ = $1;}
+        |SENTENCIA_IF {$$ = $1;}
+        |SENTENCIA_WHILE{$$ = $1;}
+        |SENTENCIA_DOWHILE{$$ = $1;}
+        |SENTENCIA_FOR{$$ = $1;}
+        |BREAK{$$ = $1;}
+        |CONTINUE{$$ = $1;}
+        |RETURN{$$ = $1;}
+        |METODO {$$ = $1;}
+        |FUNCION {$$ = $1;}
+        |FUNCION_MAIN {$$ = $1;}
+        |CALL_F{$$ = $1;}
+        |COMENTARIO{$$ = $1;}
+        |PANICO{$$ = $1;}                
+;
 
-//-------------------------------------------------------------//
 INSTRUCCIONES_I
         :FORD s_pyc {$$ = $1;}
         |CONTADOR s_pyc {$$ = $1;}
@@ -478,7 +469,6 @@ INSTRUCCIONES_M
         |PANICO{$$ = $1;}
 ;
 
-
 INSTRUCCIONES_F
         :FORD s_pyc {$$ = $1;}
         |CONTADOR s_pyc {$$ = $1;}
@@ -493,57 +483,57 @@ INSTRUCCIONES_F
         |CALL_F{$$ = $1;}
         |COMENTARIO{$$ = $1;}
         |PANICO{$$ = $1;}
-
 ;
-//-------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------//
 FORD
         :DECLARACION{$$ = $1;}
         |ASIGNACION {$$ = $1;}
 ;
 
-        DECLARACION 
-                :TIPO LISTAID{ $$ = new Declaracion.default($1,$2,@1.first_line, @1.first_column);}
-        ;
+DECLARACION 
+        :TIPO LISTAID{ $$ = new Declaracion.default($1,$2,@1.first_line, @1.first_column);}
+;
 
-        ASIGNACION 
-                :identificador '=' E {$$ = new Asignacion.default($1, $3, @1.first_line, @1.first_column);}
-                |identificador{$$ = $1;}
-
-        ;
-//-------------------------------------------------------------//
+ASIGNACION 
+        :identificador '=' E {$$ = new Asignacion.default($1, $3, @1.first_line, @1.first_column);}
+        |identificador{$$ = $1;}
+;
+//-------------------------------------------------------------------------------------------//
 SENTENCIA_IF
-        : r_if '(' E ')' BLOQUE_FUNCION		        { $$ = new If.default($3, $5, @1.first_line, @1.first_column); }
+        : r_if '(' E ')' BLOQUE_FUNCION	{ $$ = new If.default($3, $5, @1.first_line, @1.first_column); }
         | r_if '(' E ')' BLOQUE_FUNCION r_else BLOQUE_FUNCION{ $$ = new If.default($3, $5, @1.first_line, @1.first_column, $7); }
         | r_if '(' E ')' BLOQUE_FUNCION r_else SENTENCIA_IF	{ $$ = new If.default($3, $5, @1.first_line, @1.first_column, $7); }
 ;
-//-------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------//
 SENTENCIA_WHILE
         :r_while '(' E ')' BLOQUE_FUNCION { $$ = new While.default($3, $5, @1.first_line, @1.first_column); }
 ;
-//-------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------//
 SENTENCIA_DOWHILE
         :r_do BLOQUE_FUNCION r_while '(' E ')' s_pyc{ $$ = new Do_While.default($2, $5, @1.first_line, @1.first_column); }
 ;
-//-------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------//
 SENTENCIA_FOR
         :r_for '(' FORD s_pyc E s_pyc E ')' BLOQUE_FUNCION{$$ = new For.default($3, $5,$7,$9,@1.first_line, @1.first_column);}
 ;
-//-------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------//
 BREAK
         :r_break s_pyc{$$ = new Break.default(@1.first_line, @1.first_column);}
 ;
+
 CONTINUE
         :r_continue s_pyc{$$ = new Continue.default(@1.first_line, @1.first_column);}
 ;
+
 RETURN
         :r_return E s_pyc{$$ = new Return.default($2,@1.first_line, @1.first_column);}
 ;
-//-------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------//
 PRINT
         :r_print '(' E ')' { $$ = new Print.default($3, @1.first_line, @1.first_column);}
         |r_println '(' E ')'{ $$ = new Print.default($3, @1.first_line, @1.first_column);}
 ;
-//-------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------//
 METODO
         :r_public r_void identificador '('PARAMETROS')'  BLOQUE_METODO{$$ = new Metodo.default($3,$5,$7, @1.first_line, @1.first_column); }
         |r_public r_void identificador '('PARAMETROS')' s_llave_abre s_llave_cierra{$$ = new EmptyM.default($3,$5, @1.first_line, @1.first_column); }
@@ -551,36 +541,36 @@ METODO
 
 FUNCION
         :r_public TIPO identificador '(' PARAMETROS')' BLOQUE_FUNCION{$$ = new Funcion.default($2,$3,$5,$7, @1.first_line, @1.first_column);}
-
+        |r_public TIPO identificador '(' PARAMETROS')' s_llave_abre s_llave_cierra{$$ = new EmptyF.default($2,$3,$5, @1.first_line, @1.first_column); }
 ;
 
 FUNCION_MAIN
         :r_public r_static r_void r_main '(' r_string '['']' r_args')' BLOQUE_FUNCION{$$ = new Main.default($11, @1.first_line, @1.first_column);}
         |r_public r_static r_void r_main '(' PARAMETROS')' BLOQUE_FUNCION{$$ = new Funcion_Main.default($6,$8, @1.first_line, @1.first_column);}
-
+        |r_public r_static r_void r_main '(' PARAMETROS')' s_llave_abre s_llave_cierra{$$ = new EmptyFM.default($6, @1.first_line, @1.first_column);}
 ;
-//-------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------//
 CALL_F
         :r_public TIPO identificador '(' PARAMETROS ')' s_pyc {$$ = new Call_Function.default($2,$3,$5,@1.first_line, @1.first_column);}
         |r_public r_void identificador '(' PARAMETROS ')' s_pyc {$$ = new Call_Function.default($2,$3,$5,@1.first_line, @1.first_column);}
-
 ;
-//-------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------//
 BLOQUE
         :s_llave_abre L_INSTRUCCIONES s_llave_cierra  {$$ = $2;}
+;
 
+BLOQUE_I
+        :s_llave_abre L_INSTRUCCIONES_I s_llave_cierra  {$$ = $2;}
 ;
 
 BLOQUE_METODO
         :s_llave_abre L_INSTRUCCIONES_M s_llave_cierra  {$$ = $2;}
-
 ;
 
 BLOQUE_FUNCION
         :s_llave_abre L_INSTRUCCIONES_F s_llave_cierra  {$$ = $2;}
-
 ;
-//-------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------//
 LISTAID
         :LISTAID s_coma IDS {$1.push($3); $$ = $1; console.log("LISTAID:"+$$);}
         |IDS{$$ = [$1];}
@@ -590,7 +580,7 @@ IDS
         :identificador '=' E {$$ = new Lista_ID.default($1,$3,@1.first_line, @1.first_column);console.log("ID:"+$1);console.log("ID:"+$3);}
         |identificador {$$ = new Identificador.default($1, @1.first_line, @1.first_column);console.log("ID:"+$1);}
 ;
-//-------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------//
 PARAMETROS
         :PARAMETROS s_coma PARAM{$1.push($3); $$ = $1;}
         |PARAM{$$ = [$1];}
@@ -600,7 +590,7 @@ PARAM
         :TIPO E{$$ = new Parametros.default($1,$2,@1.first_line, @1.first_column);}
         |{$$ = new Excepcion.default("VACIO",@1.first_line, @1.first_column);}
 ;
-//-------------------------------------------------------------//
+//----------------------------------------------------------------------------------------------//
 TIPO
         :r_int {$$ = $1}
         |r_char {$$ = $1}
@@ -608,16 +598,18 @@ TIPO
         |r_double {$$ = $1}
         |r_string {$$ = $1}
 ;
-
-//-------------------------------------------------------------//
+//----------------------------------------------------------------------------------------------//
 CONTADOR
-        :identificador s_inc{$$ = new Contador.default('++', $1,@1.first_line, @1.first_column);}
+        :s_menos identificador s_inc{$$ = new Nega_Contador.default('-','++', $2,@1.first_line, @1.first_column);}
+        |s_menos identificador s_dec{$$ = new Nega_Contador.default('-','--', $2,@1.first_line, @1.first_column);}
+        |s_menos NUMBER s_inc{$$ = new Nega_Contador.default('-','++', $2,@1.first_line, @1.first_column);}
+        |s_menos NUMBER s_dec{$$ = new Nega_Contador.default('-','--', $2,@1.first_line, @1.first_column);}
+        |identificador s_inc{$$ = new Contador.default('++', $1,@1.first_line, @1.first_column);}
         |identificador s_dec{$$ = new Contador.default('--', $1,@1.first_line, @1.first_column);}
         |NUMBER s_inc{$$ = new Contador.default('++',$1, @1.first_line, @1.first_column);}
-        |NUMBER s_dec{$$ = new Contador.default('--',$1,@1.first_line, @1.first_column);}
-        
+        |NUMBER s_dec{$$ = new Contador.default('--',$1,@1.first_line, @1.first_column);}        
 ;
-//-------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------//
 E
         :E s_mayq E2 {$$ = new Relacional.default($1, $3, '>', @1.first_line, @1.first_column);}
         |E s_menq E2 {$$ = new Relacional.default($1, $3, '<', @1.first_line, @1.first_column);}
@@ -630,7 +622,6 @@ E2
         :E2 s_igualdad E3 {$$ = new Relacional.default($1, $3, '==', @1.first_line, @1.first_column);}
         |E2 s_diferencia E3 {$$ = new Relacional.default($1, $3, '!=', @1.first_line, @1.first_column);}
         |E3{$$ =$1}
-
 ;
 
 E3
@@ -638,9 +629,7 @@ E3
         |E3 s_and E4 {$$ = new Logica.default($1, $3, '&&', @1.first_line, @1.first_column);}
         |E3 s_or  E4 {$$ = new Logica.default($1, $3, '||', @1.first_line, @1.first_column);}
         |E4 {$$ =$1}
-
 ;
-
 
 E4
         :E4 s_mas   E5{$$ = new Aritmetica.default('+', @1.first_line, @1.first_column, $1, $3);}
@@ -652,18 +641,16 @@ E5
         :E5 s_por E6{  $$ = new Aritmetica.default('*', @1.first_line, @1.first_column, $1, $3);}
         |E5 s_div E6{  $$ = new Aritmetica.default('/', @1.first_line, @1.first_column,$1, $3);}
         |E6{$$ =$1}
-
 ;
+
 E6
         :s_menos E7 { $$ = new Aritmetica.default('-', @1.first_line, @1.first_column, $2);}
         |s_not E7 {  $$ = new Logica.default('!', @1.first_line, @1.first_column, $2);}
         |E7 s_inc {  $$ = new Aritmetica.default('++', @1.first_line, @1.first_column, $1);}
         |E7 s_dec{  $$ = new Aritmetica.default('--', @1.first_line, @1.first_column, $1);}
         |E7{$$ =$1}
-
 ;
-
-        
+      
 E7
         :'(' E ')'{ $$ = new Parentesis.default($1,$2,$3, @1.first_line, @1.first_column);}
         |identificador  { $$ = new Identificador.default($1, @1.first_line, @1.first_column); }
@@ -673,6 +660,8 @@ E7
         |r_true{$$ = new Primitivo.default($1, @1.first_line, @1.first_column);}
         |r_false{$$ = new Primitivo.default($1, @1.first_line, @1.first_column);}
 ;
-
 //-------------------------------------------------------------//
+
+
+
 

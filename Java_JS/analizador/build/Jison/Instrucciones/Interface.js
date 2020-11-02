@@ -32,11 +32,7 @@ class Interface extends instruccion_1.Instruccion {
     }
     traducir() {
         try {
-            var instrucciones = '';
-            for (let instr of this.instrucciones) {
-                instrucciones += instr.traducir();
-            }
-            return `public interface ${this.identificador} {\n${instrucciones}\n}\n`;   
+            return `\n`;   
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);   
         }

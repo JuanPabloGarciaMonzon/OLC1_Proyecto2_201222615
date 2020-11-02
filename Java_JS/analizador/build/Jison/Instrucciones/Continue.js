@@ -22,7 +22,7 @@ class Continue extends instruccion_1.Instruccion {
     }
     traducir() {
         try {
-            return `continue;\n`; 
+            return `\ncontinue;\n`; 
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);   
         }

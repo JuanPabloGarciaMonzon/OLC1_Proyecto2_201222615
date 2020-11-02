@@ -32,41 +32,61 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
-var Continue =
+var Logica =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
-  _inherits(Continue, _instruccion_1$Instru);
+  _inherits(Logica, _instruccion_1$Instru);
 
-  function Continue(linea, columna) {
-    _classCallCheck(this, Continue);
+  function Logica(operando1, operando2, operador, fila, columna) {
+    var _this;
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Continue).call(this, linea, columna));
+    _classCallCheck(this, Logica);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Logica).call(this, fila, columna));
+    _this.operador = operador;
+
+    if (!operando2) {
+      _this.operandoU = operando1;
+    } else {
+      _this.operando1 = operando1;
+      _this.operando2 = operando2;
+    }
+
+    return _this;
   }
 
-  _createClass(Continue, [{
+  _createClass(Logica, [{
     key: "getNodo",
     value: function getNodo() {
-      try {
-        var nodo = new nodoAST_1["default"]("CONTINUE");
-        nodo.agregarHijo("continue");
-        nodo.agregarHijo(";");
-        return nodo;
-      } catch (error) {
-        console.log("GETNODO_EXC:" + error);
+      var nodo = new nodoAST_1["default"]("LOGICA");
+
+      if (this.operandoU != null) {
+        nodo.agregarHijo(this.operador + "");
+        nodo.agregarHijo2(this.operandoU.getNodo());
+      } else {
+        if (this.operando1 != undefined && this.operando2 != undefined) {
+          nodo.agregarHijo2(this.operando1.getNodo());
+          nodo.agregarHijo(this.operador + "");
+          nodo.agregarHijo2(this.operando2.getNodo());
+        }
       }
+
+      return nodo;
     }
   }, {
     key: "traducir",
     value: function traducir() {
-      try {
-        return "\ncontinue;\n";
-      } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
+      if (this.operandoU != null) {
+        return "".concat(this.operador, " ").concat(this.operandoU.traducir());
+      } else {
+        if (this.operando1 != undefined && this.operando2 != undefined) {
+          return "".concat(this.operando1.traducir(), " ").concat(this.operador, " ").concat(this.operando2.traducir());
+        }
       }
     }
   }]);
 
-  return Continue;
+  return Logica;
 }(instruccion_1.Instruccion);
 
-exports["default"] = Continue;
+exports["default"] = Logica;

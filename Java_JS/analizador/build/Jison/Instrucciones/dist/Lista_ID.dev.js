@@ -53,7 +53,7 @@ function (_instruccion_1$Instru) {
     key: "getNodo",
     value: function getNodo() {
       try {
-        var nodo = new nodoAST_1["default"]("IDS");
+        var nodo = new nodoAST_1["default"]("ASIGNACION");
         nodo.agregarHijo(this.tipo);
         nodo.agregarHijo2(this.identificador.getNodo());
         return nodo;

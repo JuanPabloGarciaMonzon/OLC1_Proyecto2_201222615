@@ -41,7 +41,7 @@ class Do_While extends instruccion_1.Instruccion {
             for (let instr of this.instrucciones) {
                 instrucciones += instr.traducir();
             }
-            return `do {\n${instrucciones}\n}\n while( ${condicion} );`;   
+            return `do {\n${instrucciones}\n}\n while( ${condicion} );\n`;   
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);   
         }

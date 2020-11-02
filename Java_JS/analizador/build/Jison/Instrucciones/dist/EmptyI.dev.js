@@ -32,24 +32,34 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
-var Continue =
+var EmptyI =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
-  _inherits(Continue, _instruccion_1$Instru);
+  _inherits(EmptyI, _instruccion_1$Instru);
 
-  function Continue(linea, columna) {
-    _classCallCheck(this, Continue);
+  function EmptyI(identificador, linea, columna) {
+    var _this;
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Continue).call(this, linea, columna));
+    _classCallCheck(this, EmptyI);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EmptyI).call(this, linea, columna));
+    _this.identificador = identificador;
+    return _this;
   }
 
-  _createClass(Continue, [{
+  _createClass(EmptyI, [{
     key: "getNodo",
     value: function getNodo() {
       try {
-        var nodo = new nodoAST_1["default"]("CONTINUE");
-        nodo.agregarHijo("continue");
-        nodo.agregarHijo(";");
+        var nodo = new nodoAST_1["default"]("INTERFACE");
+        nodo.agregarHijo("public");
+        nodo.agregarHijo("class");
+        nodo.agregarHijo(this.identificador);
+        nodo.agregarHijo("{");
+        var el = new nodoAST_1["default"]("EXCEPCION");
+        nodo.excepcion();
+        nodo.agregarHijo("INSTRUCCIONES");
+        nodo.agregarHijo("}");
         return nodo;
       } catch (error) {
         console.log("GETNODO_EXC:" + error);
@@ -59,14 +69,14 @@ function (_instruccion_1$Instru) {
     key: "traducir",
     value: function traducir() {
       try {
-        return "\ncontinue;\n";
+        return "\n";
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }
     }
   }]);
 
-  return Continue;
+  return EmptyI;
 }(instruccion_1.Instruccion);
 
-exports["default"] = Continue;
+exports["default"] = EmptyI;

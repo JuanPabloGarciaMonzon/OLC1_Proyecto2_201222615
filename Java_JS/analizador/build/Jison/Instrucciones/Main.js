@@ -42,7 +42,7 @@ class Main extends instruccion_1.Instruccion {
             for (let instr of this.instrucciones) {
                 instrucciones += instr.traducir();
             }
-            return `public static void main (String [] args){\n${instrucciones}\n}\n`;    
+            return `\npublic static void main (String [] args){\n${instrucciones}\n}\n`;    
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error);    
         }

@@ -59,7 +59,7 @@ function (_instruccion_1$Instru) {
     key: "traducir",
     value: function traducir() {
       try {
-        return "break;\n";
+        return "\nbreak;\n";
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

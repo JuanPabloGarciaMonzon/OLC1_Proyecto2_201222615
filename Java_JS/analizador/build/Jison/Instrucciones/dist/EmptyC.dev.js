@@ -32,24 +32,33 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
-var Continue =
+var EmptyC =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
-  _inherits(Continue, _instruccion_1$Instru);
+  _inherits(EmptyC, _instruccion_1$Instru);
 
-  function Continue(linea, columna) {
-    _classCallCheck(this, Continue);
+  function EmptyC(identificador, linea, columna) {
+    var _this;
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Continue).call(this, linea, columna));
+    _classCallCheck(this, EmptyC);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EmptyC).call(this, linea, columna));
+    _this.identificador = identificador;
+    return _this;
   }
 
-  _createClass(Continue, [{
+  _createClass(EmptyC, [{
     key: "getNodo",
     value: function getNodo() {
       try {
-        var nodo = new nodoAST_1["default"]("CONTINUE");
-        nodo.agregarHijo("continue");
-        nodo.agregarHijo(";");
+        var nodo = new nodoAST_1["default"]("CLASE");
+        nodo.agregarHijo("public");
+        nodo.agregarHijo("class");
+        nodo.agregarHijo(this.identificador);
+        nodo.agregarHijo("{");
+        var el = new nodoAST_1["default"]("EXCEPCION");
+        nodo.excepcion();
+        nodo.agregarHijo("}");
         return nodo;
       } catch (error) {
         console.log("GETNODO_EXC:" + error);
@@ -59,14 +68,14 @@ function (_instruccion_1$Instru) {
     key: "traducir",
     value: function traducir() {
       try {
-        return "\ncontinue;\n";
+        return "public class ".concat(this.identificador, "\n {\n}\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }
     }
   }]);
 
-  return Continue;
+  return EmptyC;
 }(instruccion_1.Instruccion);
 
-exports["default"] = Continue;
+exports["default"] = EmptyC;

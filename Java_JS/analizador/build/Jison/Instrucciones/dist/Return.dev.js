@@ -64,7 +64,7 @@ function (_instruccion_1$Instru) {
     key: "traducir",
     value: function traducir() {
       try {
-        return "return ".concat(this.instrucciones.traducir(), ";\n");
+        return "\nreturn ".concat(this.instrucciones.traducir(), ";\n");
       } catch (error) {
         console.log("TRADUCIR_EXC:" + error);
       }

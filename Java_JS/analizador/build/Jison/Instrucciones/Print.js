@@ -23,7 +23,7 @@ class Print extends instruccion_1.Instruccion {
     traducir() {
         try {
             var value = this.expresion.traducir();
-            return `console.log( ${value} );\n`;  
+            return `\nconsole.log( ${value} );\n`;  
         } catch (error) {
             console.log("TRADUCIR_EXC:"+error); 
         }
