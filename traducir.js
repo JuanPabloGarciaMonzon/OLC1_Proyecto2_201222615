@@ -15,6 +15,18 @@ function traducir()
             var error = '';
             var token = '';
             console.log(data.traduccion);
+            document.getElementById('test').addEventListener('click',function() {
+                var hiddenElement = document.createElement('a');
+              
+                hiddenElement.href = 'data:attachment/text,' + encodeURI(data.traduccion);
+                hiddenElement.target = '_blank';
+                hiddenElement.download = 'myFile.txt';
+                hiddenElement.click();
+            });
+
+
+
+
             document.getElementById('salida').innerHTML = data.traduccion;
 
             console.log(data.arbol);
@@ -30,7 +42,15 @@ function traducir()
             }
             console.log(token);
 
+            
 
         }
     }
+
+    
+
 }
+
+  
+  
+  
