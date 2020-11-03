@@ -41,7 +41,7 @@ class gramaticacontroller {
                     console.log('exec error: ' + error);
                 }
             });
-            res.send({
+           res.send({
                 traduccion: traduccion,
                 arbol: grafo,
                 error:error,

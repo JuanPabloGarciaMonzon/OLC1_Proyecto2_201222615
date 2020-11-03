@@ -12,9 +12,7 @@ div.a {
   
   div.b {
 	position: relative;
-	right: 0;
-	left:1000px;
-	bottom:200px;
+	top:500px;
 	width: 750px;
 	height: 200px;
 	font-family:verdana;
@@ -24,10 +22,10 @@ div.a {
   
   div.c {
 	position: relative;
-	right: 150px;
-	left: 10px;
-	bottom:30px;
-	width: 700px;
+	right: 500px;
+	left: 100px;
+	bottom:500px;
+	width: 7000px;
 	height: 200px;
 	font-family:verdana;
 	font-size: xx-large;
