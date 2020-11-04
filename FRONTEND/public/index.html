@@ -33,9 +33,7 @@
     <ul id="menu" class="menu">
         <li class="dropdown">
             <a class="linkarchivo" style ="font-size: xx-large;" href="javascript:void(0)" class="dropbtn">Menu</a>
-            <div class="dropdown-content">
-                
-    
+            <div class="dropdown-content">    
                 <a  id="guardar" title="Guardar" class="guardar"   style ="font-size: xx-large;" onclick="DescargarArchivo();" href="javascript:void(0)">Guardar</a>
                 <a  id="guardar" title="Guardar" class="guardar"   style ="font-size: xx-large;" onclick="DescargarArchivo();"href="javascript:void(0)">Guardar Como</a>
                 <a id="analizar" class="analizar" style ="font-size: xx-large;" onclick = "traducir()"  href="javascript:void(0)">Analizar</a>
@@ -55,7 +53,7 @@
         <li class="dropdown">
             <a class="linkarchivo" href="javascript:void(0)" style ="font-size: xx-large;" class="dropbtn">Reportes</a>
             <div class="dropdown-content">
-                <a id="rep_error" class="rep_error" style ="font-size: xx-large;" onclick='' href="javascript:void(0)">Tabla de Errores</a>
+                <a id="rep_error" class="rep_error" style ="font-size: xx-large;" href="javascript:void(0)">Tabla de Errores</a>
                 <a id="rep_tk" class="rep_ast" onclick='' style ="font-size: xx-large;"  href="javascript:void(0)">Lista de Tokens</a>
                 <a id="rep_ast" class="copia_class" style ="font-size: xx-large;"  onclick='' href="javascript:void(0)">AST</a>
             </div>
@@ -78,68 +76,45 @@
 <!-------------HTML TextArea JAVA Console and CodeMirror Script---------------------->
     <br>   
     <br>    
-    <!--<div class = "c">
-        <label>JAVA</label>
-        <textarea id="txt_jv" class = "city" style="font-family:verdana" autofocus="true" ></textarea>
-        <br>
-    <br>
-    </div>-->
-    <center>
-    <div class ="c">
-        <label>JAVA</label>
-    </div>
-</center>
-    <div class = "contenedor"> 
-
-    <input id="fileInput" title="Abrir" type="file" size="50" onchange="AbrirArchivo(this.files)" class="btnp">
-    <button onclick="agregar();" title="AgregarPestana" id="btn4" class="btnp">Agregar Pestana</button>
-    <button onclick="quitar();" title="QuitarPestana" id="btn5" class="btnp">Quitar Pestana</button>
-    <br>
-    <br>
-    <div id="pestanas" class = "city" style="font-family:verdana" autofocus="true">
-        <ul id=lista>
-        </ul>
-    </div>
-
-    <body>
-        <div id="contenidopestanas" class = "city" style="font-family:verdana" autofocus="true">
-        </div>
-    </body>
-</div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
-
-<!------------------------------------------------------------------------------------>
-
-<!-------------HTML TextArea Python Console and CodeMirror Script---------------------->
-
     <center>
         <div class ="c">
-            <label>JAVASCRIPT</label>
-            <textarea id="txt_js"  ></textarea>
-            <br>
-            <br>
-            <script>
-                var editorJs = CodeMirror.fromTextArea
-                (document.getElementById("txt_js"),{
-                    mode: "javascript",
-                    theme :"blackboard",
-                    lineNumbers:true,
-                    autoCloseBrackets:true,                    
-                });    
-            </script>  
+            <label>JAVA</label>
         </div>
-<!------------------------------------------------------------------------------------>
+    </center>
+    <div class = "contenedor"> 
+        <input id="fileInput" title="Abrir" type="file" size="50" onchange="AbrirArchivo(this.files)" class="btnp">
+        <button onclick="agregar();" title="AgregarPestana" id="btn4" class="btnp">Agregar Pestana</button>
+        <button onclick="quitar();" title="QuitarPestana" id="btn5" class="btnp">Quitar Pestana</button>
+        <br>
+        <br>
+        <div id="pestanas" class = "city" style="font-family:verdana" autofocus="true">
+            <ul id=lista>
+            </ul>
+        </div>
 
-<!-------------HTML TextArea JavaScript Console and CodeMirror Script---------------------->
+        <body>
+            <div id="contenidopestanas" class = "city" style="font-family:verdana" autofocus="true">
+            </div>
+        </body>
+    </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+<!-------------HTML TextAreas----------------------------------------------------------------------------------------------------------->
+
+
+        <div class ="c">
+            <label>JAVASCRIPT</label>
+            <textarea style = "background-color: black; color: white;" id="txt_js"  ></textarea>
+            <br>
+            <br>
+        </div>
 
     <br>
     <br>
@@ -152,18 +127,9 @@
 
     <div class ="c">
         <label>PYTHON</label>
-        <textarea id="txt_python"></textarea>
+        <textarea style = "background-color: black; color: white;" id="txt_python"  ></textarea>
     </div>
-    <script>
-        var editorPy = CodeMirror.fromTextArea
-        (document.getElementById("txt_python"),{
-            mode: "python",
-            theme :"blackboard",
-            lineNumbers:true,
-            autoCloseBrackets:true
-        });
-    </script>   
-</center>
+
     <br>
     <br>
     <br>
@@ -176,10 +142,8 @@
         <label  style="font-size: xx-large;font-family:Verdana">____________________________________AST______________________________________________________________________________</label>   
         <br>
         <br>
-        <div id="graph"></div>  </center>
-    
-
-    
+        <div id="graph"></div>  
+    </center>        
 <!------------------------------------------------------------------------------------>
 </body>
 </html>

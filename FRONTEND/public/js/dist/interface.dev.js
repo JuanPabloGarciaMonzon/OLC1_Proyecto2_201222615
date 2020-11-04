@@ -215,16 +215,13 @@ function traducir() {
   Http.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var data = JSON.parse(Http.responseText);
-      var error = '';
-      var token = '';
-      console.log(data.traduccion);
-      console.log(data.arbol);
-      console.log(data.error);
+      var verrores = '';
       var btngraph = "rep_ast";
+      var txtjs = "txt_js";
       var graph = document.getElementById("graph");
       var js = "btnjs";
       document.getElementById(btngraph).addEventListener('click', function () {
-        d3.select(graph).graphviz().renderDot('digraph  {a -> b}');
+        d3.select(graph).graphviz().renderDot(data.arbol);
       });
       document.getElementById(js).addEventListener('click', function () {
         var ta = document.getElementById(get_vent());
@@ -243,7 +240,7 @@ function traducir() {
       try {
         for (var _iterator = data.error[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var er = _step.value;
-          error += er;
+          verrores += er[0] + "," + er[4] + "," + er[2] + "," + er[3] + "," + "El caracter" + " " + er[1] + " " + "no pertenece al lenguaje" + "\n";
         }
       } catch (err) {
         _didIteratorError = true;
@@ -260,32 +257,87 @@ function traducir() {
         }
       }
 
-      console.log(error);
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
-
-      try {
-        for (var _iterator2 = data.token[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var tk = _step2.value;
-          token += tk;
-        }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-            _iterator2["return"]();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
-      }
-
-      console.log(token);
+      document.getElementById(txtjs).value = verrores;
+      errorReport(data.error);
+      tokenReport(data.token);
     }
   };
+}
+
+function errorReport(lista_error) {
+  // Abrir nuevo tab
+  var verrores = "";
+  var error_report = "";
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = lista_error[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var er = _step2.value;
+      verrores += "<tr>\n" + "<td>" + er[0] + "</td>\n" + "<td>" + er[4] + "</td>\n" + "<td>" + er[2] + "</td>\n" + "<td>" + er[3] + "</td>\n" + "<td>" + "El caracter" + " " + er[1] + " " + "no pertenece al lenguaje" + "</td>\n" + "</tr>\n";
+    } // Cambiar el foco al nuevo tab (punto opcional)
+
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+        _iterator2["return"]();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  error_report = "<style>\n" + "table {\n" + "font-family: arial, sans-serif;\n" + "border: 1px solid #dddddd;\n" + "width: 100%;\n" + "}\n" + "td, th {\n" + "border: 1px solid #dddddd;\n" + "text-align: left;\n" + "padding: 8px;\n" + "}\n" + "th{\n" + "background-color:#2196F3;\n" + "color: white;\n" + "}\n" + "</style>" + "<h2>TABLA DE ERRORES</h2>\n" + "<table>\n" + "<tr>\n" + "<th>NO.</th>\n" + "<th>TIPO</th>\n" + "<th>FILA</th>\n" + "<th>COLUMNA</th>\n" + "<th>DESCRIPCION</th>\n" + "</tr>\n" + verrores + "</table>";
+  var btnEr = "rep_error";
+  document.getElementById(btnEr).addEventListener('click', function () {
+    var data = error_report;
+    var myWindow = window.open("", "MsgWindow", "width=1447.500,height=2075.340");
+    myWindow.document.write(data);
+    error_report = "";
+  });
+}
+
+function tokenReport(lista_token) {
+  // Abrir nuevo tab
+  var vartoken = "";
+  var token_report = "";
+  var _iteratorNormalCompletion3 = true;
+  var _didIteratorError3 = false;
+  var _iteratorError3 = undefined;
+
+  try {
+    for (var _iterator3 = lista_token[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+      var tk = _step3.value;
+      vartoken += "<tr>\n" + "<td>" + tk[0] + "</td>\n" + "<td>" + tk[1] + "</td>\n" + "<td>" + tk[2] + "</td>\n" + "<td>" + tk[3] + "</td>\n" + "<td>" + tk[4] + "</td>\n" + "</tr>\n";
+    } // Cambiar el foco al nuevo tab (punto opcional)
+
+  } catch (err) {
+    _didIteratorError3 = true;
+    _iteratorError3 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+        _iterator3["return"]();
+      }
+    } finally {
+      if (_didIteratorError3) {
+        throw _iteratorError3;
+      }
+    }
+  }
+
+  token_report = "<style>\n" + "table {\n" + "font-family: arial, sans-serif;\n" + "border: 1px solid #dddddd;\n" + "width: 100%;\n" + "}\n" + "td, th {\n" + "border: 1px solid #dddddd;\n" + "text-align: left;\n" + "padding: 8px;\n" + "}\n" + "th{\n" + "background-color:#2196F3;\n" + "color: white;\n" + "}\n" + "</style>" + "<h2>TABLA DE TOKENS</h2>\n" + "<table>\n" + "<tr>\n" + "<th>NO.</th>\n" + "<th>FILA</th>\n" + "<th>COLUMNA</th>\n" + "<th>TIPO</th>\n" + "<th>DESCRIPCION</th>\n" + "</tr>\n" + vartoken + "</table>";
+  var btnTk = "rep_tk";
+  document.getElementById(btnTk).addEventListener('click', function () {
+    var data = token_report;
+    token_report = "";
+    var myWindow = window.open("", "TkWindow", "width=1447.500,height=2075.340");
+    myWindow.document.write(data);
+  });
 }
