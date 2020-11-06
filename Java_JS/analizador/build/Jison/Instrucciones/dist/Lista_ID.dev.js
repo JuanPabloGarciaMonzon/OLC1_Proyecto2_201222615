@@ -30,6 +30,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var instruccion_1 = require("../Abstract/instruccion");
 
+var Error_1 = __importDefault(require("./Error"));
+
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
 var Lista_ID =
@@ -65,17 +67,9 @@ function (_instruccion_1$Instru) {
     key: "traducir",
     value: function traducir() {
       try {
-        var id = "";
-        var pam = "";
-        console.log(this.tipo);
-        console.log(this.identificador);
-
-        if (this.identificador == undefined) {
-          console.log("ESTO ES UNDEFINED");
-          console.log("UNDEFINED:" + this.tipo);
-        }
-
-        return "".concat(this.tipo, " = ").concat(this.identificador.traducir());
+        var identificador = this.identificador.traducir();
+        if (identificador instanceof Error_1["default"]) return identificador;
+        return "".concat(this.tipo, " = ").concat(identificador);
       } catch (error) {
         console.log("LID_TRADUCIR_EXC:" + error);
       }

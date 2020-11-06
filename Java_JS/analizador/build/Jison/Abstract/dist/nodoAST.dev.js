@@ -24,12 +24,20 @@ function () {
   _createClass(nodoAST, [{
     key: "setHijos",
     value: function setHijos(hijos) {
-      this.hijos = hijos;
+      try {
+        this.hijos = hijos;
+      } catch (error) {
+        console.log("SETHIJOS:" + error);
+      }
     }
   }, {
     key: "agregarHijo",
     value: function agregarHijo(cad) {
-      this.hijos.push(new nodoAST(cad));
+      try {
+        this.hijos.push(new nodoAST(cad));
+      } catch (error) {
+        console.log("AGREGARHIJO:" + error);
+      }
     }
   }, {
     key: "excepcion",
@@ -39,59 +47,87 @@ function () {
   }, {
     key: "agregarHijos",
     value: function agregarHijos(hijos) {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
       try {
-        for (var _iterator = hijos[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var hijo = _step.value;
-          this.hijos.push(hijo);
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
         try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
+          for (var _iterator = hijos[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var hijo = _step.value;
+            this.hijos.push(hijo);
           }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
         } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
+          try {
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
           }
         }
+      } catch (error) {
+        console.log("AGREGARHIJOS:" + error);
       }
     }
   }, {
     key: "agregarHijo2",
     value: function agregarHijo2(hijo) {
-      this.hijos.push(hijo);
+      try {
+        this.hijos.push(hijo);
+      } catch (error) {
+        console.log("AGREGARHIJO2:" + error);
+      }
     }
   }, {
     key: "agregarPrimerHijo",
     value: function agregarPrimerHijo(cad) {
-      this.hijos.unshift(new nodoAST(cad));
+      try {
+        this.hijos.unshift(new nodoAST(cad));
+      } catch (error) {
+        console.log("AGREGARPRIMERHIJO:" + error);
+      }
     }
   }, {
     key: "agregarPrimerHijo2",
     value: function agregarPrimerHijo2(hijo) {
-      this.hijos.unshift(hijo);
+      try {
+        this.hijos.unshift(hijo);
+      } catch (error) {
+        console.log("AGREGARPRIMERHIJO2:" + error);
+      }
     }
   }, {
     key: "getValor",
     value: function getValor() {
-      return this.valor;
+      try {
+        return this.valor;
+      } catch (error) {
+        console.log("GETVALOR:" + error);
+      }
     }
   }, {
     key: "setValor",
     value: function setValor(cad) {
-      this.valor = cad;
+      try {
+        this.valor = cad;
+      } catch (error) {
+        console.log("SETVALOR:" + error);
+      }
     }
   }, {
     key: "getHijos",
     value: function getHijos() {
-      return this.hijos;
+      try {
+        return this.hijos;
+      } catch (error) {
+        console.log("GETHIJOS:" + error);
+      }
     }
   }]);
 

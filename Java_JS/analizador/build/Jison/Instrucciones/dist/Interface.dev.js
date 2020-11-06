@@ -32,6 +32,8 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
+var Error_1 = __importDefault(require("./Error"));
+
 var Interface =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
@@ -65,6 +67,7 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator = this.instrucciones[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var m = _step.value;
+            if (m instanceof Error_1["default"]) continue;
             cas.agregarHijo2(m.getNodo());
           }
         } catch (err) {
@@ -86,7 +89,7 @@ function (_instruccion_1$Instru) {
         nodo.agregarHijo("}");
         return nodo;
       } catch (error) {
-        console.log("GETNODO_EXC:" + error);
+        console.log("INTERFACE_GETNODO_EXC:" + error);
       }
     }
   }, {
@@ -95,7 +98,7 @@ function (_instruccion_1$Instru) {
       try {
         return "\n";
       } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
+        console.log("INTERFACE_TRADUCIR_EXC:" + error);
       }
     }
   }]);

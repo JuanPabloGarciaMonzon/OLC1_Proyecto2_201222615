@@ -7,10 +7,20 @@ class Instruccion {
         this.columna = columna;
     }
     setSalida(salida) {
-        this.salida = salida;
+        try {
+            this.salida = salida;    
+        } catch (error) {
+        console.log("SETSALIDA:"+error);    
+        }
+
     }
     getSalida() {
-        return this.salida;
+        try {
+            return this.salida;  
+        } catch (error) {
+            console.log("GETSALIDA:"+error);   
+        }
+
     }
 }
 exports.Instruccion = Instruccion;

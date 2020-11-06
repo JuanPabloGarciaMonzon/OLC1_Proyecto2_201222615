@@ -21,7 +21,7 @@ body {
 .contenedor{
     width: 1080px;
     margin: auto;
-    background:#272829;
+    background: #ff0000;
     color: rgb(0, 112, 163);
     padding: 20px 15px 50px 50px;
     border-radius: 10px;
@@ -50,7 +50,7 @@ body {
     float: left;
     text-align: center;
     margin: 0px 2px -2px -0px;
-    background: #22556e;
+    background: #ff0000;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border: 2px solid rgb(0, 112, 163);

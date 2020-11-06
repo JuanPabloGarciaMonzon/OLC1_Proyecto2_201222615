@@ -17,7 +17,7 @@ class Comentario extends instruccion_1.Instruccion {
             nodo.excepcion();
             return nodo;    
         } catch (error) {
-            console.log("GETNODO_EXC:"+error);   
+            console.log("COMENTARIO_GETNODO_EXC:"+error);   
         }
 
     }
@@ -25,7 +25,7 @@ class Comentario extends instruccion_1.Instruccion {
         try {
             return `\n${this.comentario} \n`;  
         } catch (error) {
-            console.log("TRADUCIR_EXC:"+error);    
+            console.log("COMENTARIO_TRADUCIR_EXC:"+error);    
         }
 
     }

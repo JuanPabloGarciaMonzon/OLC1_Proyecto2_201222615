@@ -4,9 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../Abstract/instruccion");
+const Error_1 = __importDefault(require("../Instrucciones/Error"));
 const nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 class Logica extends instruccion_1.Instruccion {
-    constructor(operando1, operando2,operador, fila, columna) {
+    constructor(operador, fila, columna, operando1, operando2) {
         super(fila, columna);
         this.operador = operador;
         if (!operando2) {
@@ -18,29 +19,51 @@ class Logica extends instruccion_1.Instruccion {
         }
     }
     getNodo() {
-        var nodo = new nodoAST_1.default("LOGICA");
-        if (this.operandoU != null) {
-            nodo.agregarHijo(this.operador + "");
-            nodo.agregarHijo2(this.operandoU.getNodo());
-        }
-        else {
-            if (this.operando1 != undefined && this.operando2 != undefined) {
-                nodo.agregarHijo2(this.operando1.getNodo());
+        try {
+            var nodo = new nodoAST_1.default("LOGICA");
+            if (this.operandoU != null) {
                 nodo.agregarHijo(this.operador + "");
-                nodo.agregarHijo2(this.operando2.getNodo());
+                nodo.agregarHijo2(this.operandoU.getNodo());
             }
+            else {
+                if (this.operando1 != undefined && this.operando2 != undefined) {
+                    nodo.agregarHijo2(this.operando1.getNodo());
+                    nodo.agregarHijo(this.operador + "");
+                    nodo.agregarHijo2(this.operando2.getNodo());
+                }
+            }
+            return nodo;  
+        } catch (error) {
+            console.log("LOGICA_GETNODO_ERROR:"+error) 
+            
         }
-        return nodo;
+
     }
     traducir() {
-        if (this.operandoU != null) {
-            return `${this.operador} ${this.operandoU.traducir()}`;
-        }
-        else {
-            if (this.operando1 != undefined && this.operando2 != undefined) {
-                return `${this.operando1.traducir()} ${this.operador} ${this.operando2.traducir()}`;
+        try {
+            var op1 = this.operando1.traducir();
+            if (op1 instanceof (Error_1.default))
+            return op1;
+            var op2 = this.operando2.traducir();
+            if (op2 instanceof (Error_1.default))
+            return op2;
+
+            if (this.operandoU != null) {
+                var opU = this.operandoU.traducir();
+                if (opU instanceof (Error_1.default))
+                return opU;
+
+                return `${this.operador} ${opU}`;
             }
+            else {
+                if (this.operando1 != undefined && this.operando2 != undefined) {
+                    return `${op1} ${this.operador} ${op2}`;
+                }
+            }    
+        } catch (error) {
+            console.log("LOGICA_TRADUCIR_ERROR:"+error) 
         }
+
     }
 }
 exports.default = Logica;

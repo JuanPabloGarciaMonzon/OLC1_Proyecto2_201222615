@@ -30,6 +30,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var instruccion_1 = require("../Abstract/instruccion");
 
+var Error_1 = __importDefault(require("./Error"));
+
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
 var Funcion_Main =
@@ -66,6 +68,7 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator = this.parametros[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var m = _step.value;
+            if (m instanceof Error_1["default"]) continue;
             par.agregarHijo2(m.getNodo());
           }
         } catch (err) {
@@ -94,6 +97,7 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator2 = this.instrucciones[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var _m = _step2.value;
+            if (_m instanceof Error_1["default"]) continue;
             cas.agregarHijo2(_m.getNodo());
           }
         } catch (err) {
@@ -115,7 +119,7 @@ function (_instruccion_1$Instru) {
         nodo.agregarHijo("}");
         return nodo;
       } catch (error) {
-        console.log("GETNODO_EXC:" + error);
+        console.log("FUNCION_MAIN_GETNODO_EXC:" + error);
       }
     }
   }, {
@@ -131,6 +135,12 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator3 = this.instrucciones[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
             var instr = _step3.value;
+
+            if (instr instanceof Error_1["default"]) {
+              "".concat(instr.imprimir());
+              continue;
+            }
+
             instrucciones += instr.traducir();
           }
         } catch (err) {
@@ -155,6 +165,12 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator4 = this.parametros[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
             var par = _step4.value;
+
+            if (par instanceof Error_1["default"]) {
+              "".concat(par.imprimir());
+              continue;
+            }
+
             parametros += par.traducir();
           }
         } catch (err) {
@@ -174,7 +190,7 @@ function (_instruccion_1$Instru) {
 
         return "\npublic static void main (".concat(parametros, ")\n {\n").concat(instrucciones, "\n}\n");
       } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
+        console.log("FUNCION_MAIN_TRADUCIR_EXC:" + error);
       }
     }
   }]);

@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../Abstract/instruccion");
+const Error_1 = __importDefault(require("./Error"));
 const nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 class Call_Function extends instruccion_1.Instruccion {
     constructor(tipo, identificador, parametros, linea, columna) {
@@ -15,20 +16,52 @@ class Call_Function extends instruccion_1.Instruccion {
     getNodo() {
         try {
             var nodo = new nodoAST_1.default("CALL");
-            nodo.agregarHijo("public");
-            nodo.agregarHijo(this.tipo);
-            nodo.agregarHijo(this.identificador);
-            nodo.agregarHijo("(");
-            var par = new nodoAST_1.default("PARAMETROS");
-            for (let m of this.parametros) {
-                par.agregarHijo2(m.getNodo());
+            if(this.tipo == ""){
+                nodo.agregarHijo(this.identificador);
+                nodo.agregarHijo("(");
+                var par = new nodoAST_1.default("VALORES");
+                for (let m of this.parametros) {
+                    if (m instanceof Error_1.default)
+                     continue;
+                    par.agregarHijo2(m.getNodo());
+                }
+                nodo.agregarHijo2(par);
+                nodo.agregarHijo(")");
+                nodo.agregarHijo(";");
+                return nodo; 
             }
-            nodo.agregarHijo2(par);
-            nodo.agregarHijo(")");
-            nodo.agregarHijo(";");
-            return nodo;   
+            else if (this.tipo == "EXPRESION"){
+                nodo.agregarHijo(this.identificador);
+                nodo.agregarHijo("(");
+                var par = new nodoAST_1.default("VALORES");
+                for (let m of this.parametros) {
+                    if (m instanceof Error_1.default)
+                     continue;
+                    par.agregarHijo2(m.getNodo());
+                }
+                nodo.agregarHijo2(par);
+                nodo.agregarHijo(")");
+                return nodo; 
+            }
+            else{
+                nodo.agregarHijo("public");
+                nodo.agregarHijo(this.tipo);
+                nodo.agregarHijo(this.identificador);
+                nodo.agregarHijo("(");
+                var par = new nodoAST_1.default("VALORES");
+                for (let m of this.parametros) {
+                    if (m instanceof Error_1.default)
+                     continue;
+                    par.agregarHijo2(m.getNodo());
+                }
+                nodo.agregarHijo2(par);
+                nodo.agregarHijo(")");
+                nodo.agregarHijo(";");
+                return nodo; 
+            }
+  
         } catch (error) {
-            console.log("GETNODO_EXC:"+error);  
+            console.log("CALL_FUNCTION_GETNODO_EXC:"+error);  
             
         }
 
@@ -37,13 +70,28 @@ class Call_Function extends instruccion_1.Instruccion {
         try {
             var parametros = '';
             var pam = '';
+
+
             for (let par of this.parametros) {
+                if (par instanceof Error_1.default) {
+                    `${par.imprimir()}`;
+                    continue;
+                }
                 parametros += par.traducir()+ ",";
             }
             pam = parametros.substring(0,parametros.length-1);
-            return `\nfunction ${this.identificador} (${pam});\n`;  
+            if(this.tipo == ""){
+                return `${this.identificador} (${pam});\n`;  
+            }
+            else if (this.tipo == "EXPRESION"){
+                return `${this.identificador} (${pam})`;   
+            }
+            else{
+                return `\nfunction ${this.identificador} (${pam});\n`;  
+            }
+
         } catch (error) {
-            console.log("TRADUCIR_EXC:"+error); 
+            console.log("CALL_FUNCTION_TRADUCIR_EXC:"+error); 
         }
 
     }

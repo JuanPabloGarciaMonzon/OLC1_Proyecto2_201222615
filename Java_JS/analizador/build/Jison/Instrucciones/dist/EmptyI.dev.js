@@ -62,7 +62,7 @@ function (_instruccion_1$Instru) {
         nodo.agregarHijo("}");
         return nodo;
       } catch (error) {
-        console.log("GETNODO_EXC:" + error);
+        console.log("EMPYI_GETNODO_EXC:" + error);
       }
     }
   }, {
@@ -71,7 +71,7 @@ function (_instruccion_1$Instru) {
       try {
         return "\n";
       } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
+        console.log("EMPYI_TRADUCIR_EXC:" + error);
       }
     }
   }]);

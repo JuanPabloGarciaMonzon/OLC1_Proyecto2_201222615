@@ -19,6 +19,8 @@ exports.gramaticaController = void 0;
 
 var nodoAST_1 = __importDefault(require("../Jison/Abstract/nodoAST"));
 
+var Error_1 = __importDefault(require("../Jison/Instrucciones/Error"));
+
 var gramaticacontroller =
 /*#__PURE__*/
 function () {
@@ -36,9 +38,8 @@ function () {
       try {
         var TEMP = parser.parse(entrada);
         var AST = TEMP.ast;
-        console.log(TEMP.tabla_errores);
         var error = TEMP.tabla_errores;
-        console.log(TEMP.tabla_tokens);
+        console.log(error);
         var token = TEMP.tabla_tokens;
         var traduccion = ''; // console.log(error);
 
@@ -49,7 +50,14 @@ function () {
         try {
           for (var _iterator = AST[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var instruccion = _step.value;
+
+            if (instruccion instanceof Error_1["default"]) {
+              "".concat(instruccion.imprimir());
+              continue;
+            }
+
             traduccion += instruccion.traducir();
+            if (traduccion instanceof Error_1["default"]) "".concat(m.imprimir());
           } //GENERAR ARBOL
 
         } catch (err) {
@@ -78,6 +86,7 @@ function () {
         try {
           for (var _iterator2 = AST[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var _instruccion = _step2.value;
+            if (_instruccion instanceof Error_1["default"]) continue;
             instr.agregarHijo2(_instruccion.getNodo());
           }
         } catch (err) {
@@ -116,10 +125,8 @@ function () {
           error: error,
           token: token
         });
-        errorReport(error);
-        tokenReport(token);
       } catch (err) {
-        console.log(err);
+        console.log("GRAMATICA_CONTROLLER_ERROR:" + err);
         res.send({
           error: err
         });
@@ -134,14 +141,18 @@ var dot = '';
 var c = 0;
 
 function getDot(raiz) {
-  console.log(raiz.getValor());
-  dot = "";
-  dot += "digraph {\n";
-  dot += "n0[label=\"" + raiz.getValor().replace("\"", "\\\"") + "\"];\n";
-  c = 1;
-  recorrerAST("n0", raiz);
-  dot += "}";
-  return dot;
+  try {
+    console.log(raiz.getValor());
+    dot = "";
+    dot += "digraph {\n";
+    dot += "n0[label=\"" + raiz.getValor().replace("\"", "\\\"") + "\"];\n";
+    c = 1;
+    recorrerAST("n0", raiz);
+    dot += "}";
+    return dot;
+  } catch (error) {
+    console.log("GETDOT_ERROR" + error);
+  }
 }
 
 function recorrerAST(padre, nPadre) {
@@ -179,77 +190,8 @@ function recorrerAST(padre, nPadre) {
       }
     }
   } catch (error) {
-    console.log("RECORRER_AST:" + error);
+    console.log("RECORRER_AST_ERROR:" + error);
   }
-}
-
-function errorReport(lista_error) {
-  // Abrir nuevo tab
-  var verrores = "";
-  var error_report = "";
-  var _iteratorNormalCompletion4 = true;
-  var _didIteratorError4 = false;
-  var _iteratorError4 = undefined;
-
-  try {
-    for (var _iterator4 = lista_error[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-      var er = _step4.value;
-      verrores += "<tr>\n" + "<td>" + er[0] + "</td>\n" + "<td>" + er[4] + "</td>\n" + "<td>" + er[2] + "</td>\n" + "<td>" + er[3] + "</td>\n" + "<td>" + "El caracter" + " " + er[1] + " " + "no pertenece al lenguaje" + "</td>\n" + "</tr>\n";
-    }
-  } catch (err) {
-    _didIteratorError4 = true;
-    _iteratorError4 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
-        _iterator4["return"]();
-      }
-    } finally {
-      if (_didIteratorError4) {
-        throw _iteratorError4;
-      }
-    }
-  }
-
-  var fs = require('fs'); // Cambiar el foco al nuevo tab (punto opcional)
-
-
-  error_report = "<style>\n" + "table {\n" + "font-family: arial, sans-serif;\n" + "border: 1px solid #dddddd;\n" + "width: 100%;\n" + "}\n" + "td, th {\n" + "border: 1px solid #dddddd;\n" + "text-align: left;\n" + "padding: 8px;\n" + "}\n" + "th{\n" + "background-color:#2196F3;\n" + "color: white;\n" + "}\n" + "</style>" + "<h2>TABLA DE ERRORES</h2>\n" + "<table>\n" + "<tr>\n" + "<th>NO.</th>\n" + "<th>TIPO</th>\n" + "<th>FILA</th>\n" + "<th>COLUMNA</th>\n" + "<th>DESCRIPCION</th>\n" + "</tr>\n" + verrores + "</table>";
-  fs.writeFileSync('./error.html', error_report);
-}
-
-function tokenReport(lista_token) {
-  var vartoken = "";
-  var token_report = "";
-  var _iteratorNormalCompletion5 = true;
-  var _didIteratorError5 = false;
-  var _iteratorError5 = undefined;
-
-  try {
-    for (var _iterator5 = lista_token[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-      var tk = _step5.value;
-      vartoken += "<tr>\n" + "<td>" + tk[0] + "</td>\n" + "<td>" + tk[1] + "</td>\n" + "<td>" + tk[2] + "</td>\n" + "<td>" + tk[3] + "</td>\n" + "<td>" + tk[4] + "</td>\n" + "</tr>\n";
-    }
-  } catch (err) {
-    _didIteratorError5 = true;
-    _iteratorError5 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-        _iterator5["return"]();
-      }
-    } finally {
-      if (_didIteratorError5) {
-        throw _iteratorError5;
-      }
-    }
-  }
-
-  var fs = require('fs'); // Cambiar el foco al nuevo tab (punto opcional)
-
-
-  token_report = "<style>\n" + "table {\n" + "font-family: arial, sans-serif;\n" + "border: 1px solid #dddddd;\n" + "width: 100%;\n" + "}\n" + "td, th {\n" + "border: 1px solid #dddddd;\n" + "text-align: left;\n" + "padding: 8px;\n" + "}\n" + "th{\n" + "background-color:#2196F3;\n" + "color: white;\n" + "}\n" + "</style>" + "<h2>TABLA DE TOKENS</h2>\n" + "<table>\n" + "<tr>\n" + "<th>NO.</th>\n" + "<th>FILA</th>\n" + "<th>COLUMNA</th>\n" + "<th>TIPO</th>\n" + "<th>DESCRIPCION</th>\n" + "</tr>\n" + vartoken + "</table>";
-  fs.writeFileSync('./token.html', token_report);
 }
 
 exports.gramaticaController = new gramaticacontroller();

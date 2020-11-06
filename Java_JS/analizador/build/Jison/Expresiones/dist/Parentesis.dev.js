@@ -30,6 +30,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var instruccion_1 = require("../Abstract/instruccion");
 
+var Error_1 = __importDefault(require("../Instrucciones/Error"));
+
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
 var Parentesis =
@@ -52,14 +54,24 @@ function (_instruccion_1$Instru) {
   _createClass(Parentesis, [{
     key: "getNodo",
     value: function getNodo() {
-      var nodo = new nodoAST_1["default"]("EXPRESION");
-      nodo.agregarHijo2(this.operando1.getNodo());
-      return nodo;
+      try {
+        var nodo = new nodoAST_1["default"]("EXPRESION");
+        nodo.agregarHijo2(this.operando1.getNodo());
+        return nodo;
+      } catch (error) {
+        console.log("PARENTESIS_GETNODO_ERROR:" + error);
+      }
     }
   }, {
     key: "traducir",
     value: function traducir() {
-      return this.parA + this.operando1.traducir() + this.parC + "";
+      try {
+        var op1 = this.operando1.traducir();
+        if (op1 instanceof Error_1["default"]) return op1;
+        return this.parA + op1 + this.parC + "";
+      } catch (error) {
+        console.log("PARENTESIS_TRADUCIR_ERROR:" + error);
+      }
     }
   }]);
 

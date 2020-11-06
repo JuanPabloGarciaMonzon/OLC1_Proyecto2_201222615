@@ -11,12 +11,22 @@ class Identificador extends instruccion_1.Instruccion {
         this.identificador = identificador;
     }
     getNodo() {
-        var nodo = new nodoAST_1.default("IDENTIFICADOR");
-        nodo.agregarHijo(this.identificador);
-        return nodo;
+        try {
+            var nodo = new nodoAST_1.default("IDENTIFICADOR");
+            nodo.agregarHijo(this.identificador);
+            return nodo;    
+        } catch (error) {
+            console.log("IDENTIFICADOR_GETNODO_ERROR:"+error) 
+        }
+
     }
     traducir() {
-        return this.identificador ;
+        try {
+            return this.identificador ;  
+        } catch (error) {
+            console.log("IDENTIFICADOR_TRADUCIR_ERROR:"+error)
+        }
+
     }
 }
 exports.default = Identificador;

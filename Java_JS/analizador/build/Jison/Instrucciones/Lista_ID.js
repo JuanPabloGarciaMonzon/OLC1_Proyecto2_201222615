@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../Abstract/instruccion");
+const Error_1 = __importDefault(require("./Error"));
 const nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 class Lista_ID extends instruccion_1.Instruccion {
     constructor(tipo,identificador,linea, columna) {
@@ -26,15 +27,11 @@ class Lista_ID extends instruccion_1.Instruccion {
     }
     traducir() {
         try {
-            var id = "";
-            var pam = "";
-            console.log(this.tipo)
-            console.log(this.identificador)
-            if(this.identificador==undefined){
-                console.log("ESTO ES UNDEFINED");
-                console.log("UNDEFINED:"+this.tipo)    
-            }
-            return `${this.tipo} = ${this.identificador.traducir()}`;  
+            var identificador = this.identificador.traducir();
+            if (identificador instanceof (Error_1.default))
+            return identificador;
+
+            return `${this.tipo} = ${identificador}`;  
         } catch (error) {
             console.log("LID_TRADUCIR_EXC:"+error); 
         }

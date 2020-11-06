@@ -111,7 +111,7 @@
 
         <div class ="c">
             <label>JAVASCRIPT</label>
-            <textarea style = "background-color: black; color: white;" id="txt_js"  ></textarea>
+            <textarea style = "background-color: black; color: white;" id="txt_js" disabled ></textarea>
             <br>
             <br>
         </div>
@@ -127,7 +127,7 @@
 
     <div class ="c">
         <label>PYTHON</label>
-        <textarea style = "background-color: black; color: white;" id="txt_python"  ></textarea>
+        <textarea style = "background-color: black; color: white;" id="txt_python" disabled ></textarea>
     </div>
 
     <br>
@@ -139,11 +139,24 @@
     <br>
     <br>
     <center>
-        <label  style="font-size: xx-large;font-family:Verdana">____________________________________AST______________________________________________________________________________</label>   
+        <label  style="font-size: xx-large;font-family:Verdana">_________________________________________________AST_________________________________________________________________</label>   
         <br>
         <br>
         <div id="graph"></div>  
-    </center>        
+    </center>
+    
+    <center>
+        <label  style="font-size: xx-large;font-family:Verdana">_________________________________________________ERRORES_________________________________________________________________</label>   
+        <br>
+        <br>
+        <div id="t_error"></div>  
+    </center> 
+    <center>
+        <label  style="font-size: xx-large;font-family:Verdana">_________________________________________________TOKENS_________________________________________________________________</label>   
+        <br>
+        <br>
+        <div id="t_token"></div>  
+    </center> 
 <!------------------------------------------------------------------------------------>
 </body>
 </html>

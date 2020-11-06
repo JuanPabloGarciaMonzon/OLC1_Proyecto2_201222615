@@ -28,6 +28,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var Error_1 = __importDefault(require("./Error"));
+
 var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
@@ -57,16 +59,18 @@ function (_instruccion_1$Instru) {
         nodo.agregarHijo(";");
         return nodo;
       } catch (error) {
-        console.log("GETNODO_EXC:" + error);
+        console.log("RETURN_GETNODO_EXC:" + error);
       }
     }
   }, {
     key: "traducir",
     value: function traducir() {
       try {
-        return "\nreturn ".concat(this.instrucciones.traducir(), ";\n");
+        var instrucciones = this.instrucciones.traducir();
+        if (instrucciones instanceof Error_1["default"]) return instrucciones;
+        return "\nreturn ".concat(instrucciones, ";\n");
       } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
+        console.log("RETURN_TRADUCIR_EXC:" + error);
       }
     }
   }]);

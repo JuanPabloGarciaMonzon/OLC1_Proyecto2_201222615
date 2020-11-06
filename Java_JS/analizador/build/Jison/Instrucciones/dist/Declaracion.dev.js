@@ -30,6 +30,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var instruccion_1 = require("../Abstract/instruccion");
 
+var Error_1 = __importDefault(require("./Error"));
+
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
 var Declaracion =
@@ -63,6 +65,7 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator = this.identificador[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var m = _step.value;
+            if (m instanceof Error_1["default"]) continue;
             list.agregarHijo2(m.getNodo());
           }
         } catch (err) {
@@ -83,7 +86,7 @@ function (_instruccion_1$Instru) {
         nodo.agregarHijo2(list);
         return nodo;
       } catch (error) {
-        console.log("GETNODO_EXC:" + error);
+        console.log("DECLARACION_GETNODO_EXC:" + error);
       }
     }
   }, {
@@ -99,6 +102,12 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator2 = this.identificador[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var lst = _step2.value;
+
+            if (lst instanceof Error_1["default"]) {
+              "".concat(lst.imprimir());
+              continue;
+            }
+
             lista += lst.traducir() + ",";
           }
         } catch (err) {
@@ -119,7 +128,7 @@ function (_instruccion_1$Instru) {
         pam = lista.substring(0, lista.length - 1);
         return "var ".concat(pam, ";");
       } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
+        console.log("DECLARACION_TRADUCIR_EXC:" + error);
       }
     }
   }]);

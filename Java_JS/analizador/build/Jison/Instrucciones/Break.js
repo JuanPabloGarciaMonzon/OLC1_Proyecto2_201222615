@@ -16,7 +16,7 @@ class Break extends instruccion_1.Instruccion {
             nodo.agregarHijo(";");
             return nodo;    
         } catch (error) {
-            console.log("GETNODO_EXC:"+error);  
+            console.log("BREAK_GETNODO_EXC:"+error);  
         }
 
     }
@@ -24,7 +24,7 @@ class Break extends instruccion_1.Instruccion {
         try {
             return `\nbreak;\n`;   
         } catch (error) {
-            console.log("TRADUCIR_EXC:"+error); 
+            console.log("BREAK_TRADUCIR_EXC:"+error); 
         }
 
     }

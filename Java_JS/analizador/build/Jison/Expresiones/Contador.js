@@ -13,14 +13,24 @@ class Contador extends instruccion_1.Instruccion {
         
     }
     getNodo() {
-        var nodo = new nodoAST_1.default("CONTADOR");
+        try {
+            var nodo = new nodoAST_1.default("CONTADOR");
 
-        nodo.agregarHijo(this.operando1 + "");
-        nodo.agregarHijo(this.operador + "");
-        return nodo;
+            nodo.agregarHijo(this.operando1 + "");
+            nodo.agregarHijo(this.operador + "");
+            return nodo;   
+        } catch (error) {
+            console.log("CONTADOR_GETNODO_ERROR:"+error) 
+        }
+
     }
     traducir() {
-        return `\n${this.operando1}${this.operador};\n`;
+        try {
+            return `\n${this.operando1}${this.operador};\n`;    
+        } catch (error) {
+            console.log("CONTADOR_TRADUCIR_ERROR:"+error)
+        }
+
     }
 }
 exports.default = Contador;

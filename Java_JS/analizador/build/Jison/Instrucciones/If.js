@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../Abstract/instruccion");
 const nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
+const Error_1 = __importDefault(require("./Error"));
 class If extends instruccion_1.Instruccion {
     constructor(condicion, instruccionesIf, linea, columna, instruccionesElse) {
         super(linea, columna);
@@ -29,6 +30,8 @@ class If extends instruccion_1.Instruccion {
             nodo.agregarHijo("{");
             var cas = new nodoAST_1.default("INSTRUCCIONES IF");
             for (let m of this.instruccionesIf) {
+                if (m instanceof Error_1.default)
+                 continue;
                 cas.agregarHijo2(m.getNodo());
             }
             nodo.agregarHijo2(cas);
@@ -38,6 +41,8 @@ class If extends instruccion_1.Instruccion {
                 nodo.agregarHijo("{");
                 var el = new nodoAST_1.default("INSTRUCCIONES ELSE");
                 for (let m of this.instruccionesElse) {
+                    if (m instanceof Error_1.default)
+                     continue;
                     el.agregarHijo2(m.getNodo());
                 }
                 nodo.agregarHijo2(el);
@@ -50,7 +55,7 @@ class If extends instruccion_1.Instruccion {
             }
             return nodo;  
         } catch (error) {
-            console.error(error);
+            console.error("IF_GETNODO_ERROR"+error);
         }
 
     }
@@ -58,24 +63,39 @@ class If extends instruccion_1.Instruccion {
         try {
             var val = '';
             var condicion = this.condicion.traducir();
+            if (condicion instanceof (Error_1.default))
+            return condicion;
+
             var instruccionesIF = '';
             for (let insIf of this.instruccionesIf) {
+                if (insIf instanceof Error_1.default) {
+                    `${insIf.imprimir()}`;
+                    continue;
+                }
                 instruccionesIF += `${insIf.traducir()}\n`;
             }
             val += `if ( ${condicion} ) {\n${instruccionesIF} }`;
             if (this.elseif != undefined) {
-                val += `else ${this.elseif.traducir()}`;
+                var elseIF = this.elseif.traducir();
+                if (elseIF instanceof (Error_1.default))
+                 return elseIF;
+
+                val += `else ${elseIF}`;
             }
             else if (this.instruccionesElse != undefined) {
                 var instruccionesELSE = '';
                 for (let insElse of this.instruccionesElse) {
+                    if (insElse instanceof Error_1.default) {
+                        `${insElse.imprimir()}`;
+                        continue;
+                    }
                     instruccionesELSE += `${insElse.traducir()}\n`;
                 }
                 val += `else {\n${instruccionesELSE} }`;
             }
             return val + '\n';   
         } catch (error) {
-            console.log(error);
+            console.error("IF_TRADUCIR_ERROR"+error);
         }
 
     }

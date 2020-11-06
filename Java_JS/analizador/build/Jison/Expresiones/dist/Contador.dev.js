@@ -51,15 +51,23 @@ function (_instruccion_1$Instru) {
   _createClass(Contador, [{
     key: "getNodo",
     value: function getNodo() {
-      var nodo = new nodoAST_1["default"]("CONTADOR");
-      nodo.agregarHijo(this.operando1 + "");
-      nodo.agregarHijo(this.operador + "");
-      return nodo;
+      try {
+        var nodo = new nodoAST_1["default"]("CONTADOR");
+        nodo.agregarHijo(this.operando1 + "");
+        nodo.agregarHijo(this.operador + "");
+        return nodo;
+      } catch (error) {
+        console.log("CONTADOR_GETNODO_ERROR:" + error);
+      }
     }
   }, {
     key: "traducir",
     value: function traducir() {
-      return "\n".concat(this.operando1).concat(this.operador, ";\n");
+      try {
+        return "\n".concat(this.operando1).concat(this.operador, ";\n");
+      } catch (error) {
+        console.log("CONTADOR_TRADUCIR_ERROR:" + error);
+      }
     }
   }]);
 

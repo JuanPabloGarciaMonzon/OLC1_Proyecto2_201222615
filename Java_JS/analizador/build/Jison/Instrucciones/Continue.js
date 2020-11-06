@@ -16,7 +16,7 @@ class Continue extends instruccion_1.Instruccion {
             nodo.agregarHijo(";");
             return nodo;    
         } catch (error) {
-            console.log("GETNODO_EXC:"+error);   
+            console.log("CONTINUE_GETNODO_EXC:"+error);   
         }
 
     }
@@ -24,7 +24,7 @@ class Continue extends instruccion_1.Instruccion {
         try {
             return `\ncontinue;\n`; 
         } catch (error) {
-            console.log("TRADUCIR_EXC:"+error);   
+            console.log("CONTINUE_TRADUCIR_EXC:"+error);   
         }
 
     }

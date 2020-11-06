@@ -23,7 +23,7 @@ class EmptyC extends instruccion_1.Instruccion {
             nodo.agregarHijo("}");
             return nodo;     
         } catch (error) {
-            console.log("GETNODO_EXC:"+error);
+            console.log("EMPYTC_GETNODO_EXC:"+error);
         }
 
     }
@@ -31,7 +31,7 @@ class EmptyC extends instruccion_1.Instruccion {
         try {
             return `public class ${this.identificador}\n {\n}\n`;   
         } catch (error) {
-            console.log("TRADUCIR_EXC:"+error);   
+            console.log("EMPYTC_TRADUCIR_EXC:"+error);   
         }
 
     }

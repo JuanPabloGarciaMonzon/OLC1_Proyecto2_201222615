@@ -205,45 +205,39 @@ function traducir()
     Http.open("POST",`http://localhost:3000/jison`, true);
     Http.setRequestHeader("Content-Type", "application/json");
     Http.send(JSON.stringify(data));
-
-
     Http.onreadystatechange=function(){
         if(this.readyState==4 && this.status==200)
         {
             var data = JSON.parse(Http.responseText);
-            var verrores = '';
-            
-    
+            var errores = '';
+            var contador = 0;    
             var btngraph = "rep_ast";
             var txtjs = "txt_js";
             var graph = document.getElementById("graph");
             var js = "btnjs";
+
             document.getElementById(btngraph).addEventListener('click',function() {
-                d3.select(graph).graphviz()
-                
+                d3.select(graph).graphviz()                
                 .renderDot(data.arbol);
             
             });
-        
-        
+                
             document.getElementById(js).addEventListener('click',function() {
                 var ta=document.getElementById(get_vent());
-                var contenido=ta.value;//texto de vent actual
                 var hiddenElement = document.createElement('a');      
                 hiddenElement.href = 'data:attachment/text,' + encodeURI(data.traduccion);
                 hiddenElement.target = '_blank';
-                hiddenElement.download = 'myFile.txt';
+                hiddenElement.download = 'traduccionJS.java';
                 hiddenElement.click();
             });
 
-
             for(let er of data.error){
-                verrores+=er[0]+","+er[4]+","+er[2]+","+er[3]+","+"El caracter"+ " " + er[1]+ " " + "no pertenece al lenguaje"+"\n"  
+                errores+=er[0]+","+er[4]+","+er[2]+","+er[3]+","+"El caracter"+ " " + er[1]+ " " + "no pertenece al lenguaje"+"\n"  
             }
-            document.getElementById(txtjs).value = verrores;
-            
+            document.getElementById(txtjs).value = errores;
+            contador++;
             errorReport(data.error);
-            tokenReport(data.token)
+            tokenReport(data.token,contador)
         }
     }
 
@@ -251,20 +245,18 @@ function traducir()
 
 function errorReport(lista_error) {
     // Abrir nuevo tab
-    var verrores="";
-    
+    var verrores="";    
+    var contador  = 0;
     var error_report = "";
     for(let er of lista_error){
         verrores+= "<tr>\n" +
-            "<td>"+ er[0]+"</td>\n" +
-            "<td>"+ er[4]+"</td>\n" +
-            "<td>"+ er[2]+"</td>\n" +
-            "<td>"+ er[3]+"</td>\n" +
-            "<td>"+ "El caracter"+ " " + er[1]+ " " + "no pertenece al lenguaje"+"</td>\n" +
+        "<td"+ " " + "style="+'"color:white;"'+">"+ er[0]+"</td>\n" +
+        "<td"+ " " + "style="+'"color:white;"'+">"+ er[4]+"</td>\n" +
+        "<td"+ " " + "style="+'"color:white;"'+">"+ er[2]+"</td>\n" +
+        "<td"+ " " + "style="+'"color:white;"'+">"+ er[3]+"</td>\n" +
+        "<td"+ " " + "style="+'"color:white;"'+">"+ "El caracter"+ " " + er[1]+ " " + "no pertenece al lenguaje"+"</td>\n" +
             "</tr>\n";
     }
-
-    // Cambiar el foco al nuevo tab (punto opcional)
     error_report = "<style>\n" +
         "table {\n" +
         "font-family: arial, sans-serif;\n" +
@@ -292,29 +284,25 @@ function errorReport(lista_error) {
         "</tr>\n" +
         verrores +
         "</table>";
-
-
         var btnEr="rep_error";
         document.getElementById(btnEr).addEventListener('click',function() {
-            var data = error_report;
-            var myWindow = window.open("", "MsgWindow", "width=1447.500,height=2075.340");
-            myWindow.document.write(data);
-            error_report = "";
+            var data = error_report;           
+            document.getElementById("t_error").innerHTML= data; 
         });
 }
 
 
-function tokenReport(lista_token) {
+function tokenReport(lista_token,count) {
     // Abrir nuevo tab
     var vartoken="";
     var token_report = "";
     for(let tk of lista_token){
         vartoken+= "<tr>\n" +
-            "<td>"+ tk[0]+"</td>\n" +
-            "<td>"+ tk[1]+"</td>\n" +
-            "<td>"+ tk[2]+"</td>\n" +
-            "<td>"+ tk[3]+"</td>\n" +
-            "<td>"+ tk[4]+"</td>\n" +
+            "<td"+ " " + "style="+'"color:white;"'+">"+ tk[0]+"</td>\n" +
+            "<td"+ " " + "style="+'"color:white;"'+">"+ tk[1]+"</td>\n" +
+            "<td"+ " " + "style="+'"color:white;"'+">"+ tk[2]+"</td>\n" +
+            "<td"+ " " + "style="+'"color:white;"'+">"+ tk[3]+"</td>\n" +
+            "<td"+ " " + "style="+'"color:white;"'+">"+ tk[4]+"</td>\n" +
             "</tr>\n";
     }
     // Cambiar el foco al nuevo tab (punto opcional)
@@ -334,7 +322,7 @@ function tokenReport(lista_token) {
         "color: white;\n" +
         "}\n" +
         "</style>" +
-        "<h2>TABLA DE TOKENS</h2>\n" +
+        "<h2>TABLA DE TOKENS" + "</h2>\n"+
         "<table>\n" +
         "<tr>\n" +
         "<th>NO.</th>\n" +        
@@ -345,18 +333,12 @@ function tokenReport(lista_token) {
         "</tr>\n" +
         vartoken +
         "</table>";
-
-
         var btnTk="rep_tk";
         document.getElementById(btnTk).addEventListener('click',function() {
             var data = token_report;
-            token_report = "";
-            var myWindow = window.open("", "TkWindow", "width=1447.500,height=2075.340");
-            myWindow.document.write(data);
-            
-
-        });
-
+                document.getElementById("t_token").innerHTML= data; 
+        }
+        );
 }
 
 

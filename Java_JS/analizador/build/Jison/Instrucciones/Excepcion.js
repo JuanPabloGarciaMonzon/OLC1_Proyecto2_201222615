@@ -16,7 +16,7 @@ class Excepcion extends instruccion_1.Instruccion {
             nodo.excepcion();
             return nodo;   
         } catch (error) {
-            console.log("GETNODO_EXC:"+error);  
+            console.log("EXCEPCION_GETNODO_EXC:"+error);  
         }
 
     }
@@ -24,7 +24,7 @@ class Excepcion extends instruccion_1.Instruccion {
         try {
             return "";  
         } catch (error) {
-            console.log("TRADUCIR_EXC:"+error); 
+            console.log("EXCEPCION_TRADUCIR_EXC:"+error); 
         }
 
     }

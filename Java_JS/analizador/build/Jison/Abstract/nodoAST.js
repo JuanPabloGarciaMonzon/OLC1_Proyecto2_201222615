@@ -7,37 +7,83 @@ class nodoAST {
         this.valor = valor;
     }
     setHijos(hijos) {
-        this.hijos = hijos;
+        try {
+            this.hijos = hijos;   
+        } catch (error) {
+          console.log("SETHIJOS:"+error);  
+        }
+
     }
     agregarHijo(cad) {
-        this.hijos.push(new nodoAST(cad));
+        try {
+            this.hijos.push(new nodoAST(cad));  
+        } catch (error) {
+            console.log("AGREGARHIJO:"+error);  
+        }
+
     }
     excepcion() {
         console.log("EXCEPCION")
     }
     agregarHijos(hijos) {
-        for (let hijo of hijos) {
-            this.hijos.push(hijo);
+        try {
+            for (let hijo of hijos) {
+                this.hijos.push(hijo);
+            }   
+        } catch (error) {
+            console.log("AGREGARHIJOS:"+error);    
         }
+
     }
     agregarHijo2(hijo) {
-        this.hijos.push(hijo);
+        try {
+            this.hijos.push(hijo);   
+        } catch (error) {
+            console.log("AGREGARHIJO2:"+error); 
+        }
+
     }
 
     agregarPrimerHijo(cad) {
-        this.hijos.unshift(new nodoAST(cad));
+        try {
+            this.hijos.unshift(new nodoAST(cad));   
+        } catch (error) {
+            console.log("AGREGARPRIMERHIJO:"+error);  
+        }
+
     }
     agregarPrimerHijo2(hijo) {
-        this.hijos.unshift(hijo);
+        try {
+            this.hijos.unshift(hijo);   
+        } catch (error) {
+
+          console.log("AGREGARPRIMERHIJO2:"+error);   
+        }
+
     }
     getValor() {
-        return this.valor;
+        try {
+            return this.valor;   
+        } catch (error) {
+            console.log("GETVALOR:"+error);      
+        }
+
     }
     setValor(cad) {
-        this.valor = cad;
+        try {
+            this.valor = cad;    
+        } catch (error) {
+            console.log("SETVALOR:"+error);  
+        }
+
     }
     getHijos() {
-        return this.hijos;
+        try {
+            return this.hijos;   
+        } catch (error) {
+            console.log("GETHIJOS:"+error);    
+        }
+
     }
 
 

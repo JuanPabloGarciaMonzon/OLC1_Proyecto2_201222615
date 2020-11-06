@@ -32,6 +32,8 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
+var Error_1 = __importDefault(require("./Error"));
+
 var If =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
@@ -75,6 +77,7 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator = this.instruccionesIf[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var _m = _step.value;
+            if (_m instanceof Error_1["default"]) continue;
             cas.agregarHijo2(_m.getNodo());
           }
         } catch (err) {
@@ -106,6 +109,7 @@ function (_instruccion_1$Instru) {
           try {
             for (var _iterator2 = this.instruccionesElse[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
               var m = _step2.value;
+              if (m instanceof Error_1["default"]) continue;
               el.agregarHijo2(m.getNodo());
             }
           } catch (err) {
@@ -135,7 +139,7 @@ function (_instruccion_1$Instru) {
 
         return nodo;
       } catch (error) {
-        console.error(error);
+        console.error("IF_GETNODO_ERROR" + error);
       }
     }
   }, {
@@ -144,6 +148,7 @@ function (_instruccion_1$Instru) {
       try {
         var val = '';
         var condicion = this.condicion.traducir();
+        if (condicion instanceof Error_1["default"]) return condicion;
         var instruccionesIF = '';
         var _iteratorNormalCompletion3 = true;
         var _didIteratorError3 = false;
@@ -152,6 +157,12 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator3 = this.instruccionesIf[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
             var insIf = _step3.value;
+
+            if (insIf instanceof Error_1["default"]) {
+              "".concat(insIf.imprimir());
+              continue;
+            }
+
             instruccionesIF += "".concat(insIf.traducir(), "\n");
           }
         } catch (err) {
@@ -172,7 +183,9 @@ function (_instruccion_1$Instru) {
         val += "if ( ".concat(condicion, " ) {\n").concat(instruccionesIF, " }");
 
         if (this.elseif != undefined) {
-          val += "else ".concat(this.elseif.traducir());
+          var elseIF = this.elseif.traducir();
+          if (elseIF instanceof Error_1["default"]) return elseIF;
+          val += "else ".concat(elseIF);
         } else if (this.instruccionesElse != undefined) {
           var instruccionesELSE = '';
           var _iteratorNormalCompletion4 = true;
@@ -182,6 +195,12 @@ function (_instruccion_1$Instru) {
           try {
             for (var _iterator4 = this.instruccionesElse[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
               var insElse = _step4.value;
+
+              if (insElse instanceof Error_1["default"]) {
+                "".concat(insElse.imprimir());
+                continue;
+              }
+
               instruccionesELSE += "".concat(insElse.traducir(), "\n");
             }
           } catch (err) {
@@ -204,7 +223,7 @@ function (_instruccion_1$Instru) {
 
         return val + '\n';
       } catch (error) {
-        console.log(error);
+        console.error("IF_TRADUCIR_ERROR" + error);
       }
     }
   }]);

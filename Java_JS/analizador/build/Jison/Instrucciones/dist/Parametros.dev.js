@@ -30,6 +30,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var instruccion_1 = require("../Abstract/instruccion");
 
+var Error_1 = __importDefault(require("./Error"));
+
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
 var Parametros =
@@ -53,23 +55,33 @@ function (_instruccion_1$Instru) {
     value: function getNodo() {
       try {
         var nodo = new nodoAST_1["default"]("PARAMETROS");
-        nodo.agregarHijo(this.tipo);
-        nodo.agregarHijo2(this.identificador.getNodo());
-        return nodo;
+
+        if (this.tipo == "") {
+          nodo.agregarHijo2(this.identificador.getNodo());
+          return nodo;
+        } else {
+          nodo.agregarHijo(this.tipo);
+          nodo.agregarHijo2(this.identificador.getNodo());
+          return nodo;
+        }
       } catch (error) {
-        console.log("GETNODO_EXC:" + error);
+        console.log("PARAMETROS_GETNODO_EXC:" + error);
       }
     }
   }, {
     key: "traducir",
     value: function traducir() {
       try {
-        var lista = [];
-        lista.push(this.identificador);
-        lista.push(lista);
-        return "".concat(this.tipo, " ").concat(this.identificador.traducir());
+        var identificador = this.identificador.traducir();
+        if (identificador instanceof Error_1["default"]) return identificador;
+
+        if (this.tipo == "") {
+          return "".concat(identificador);
+        } else {
+          return "".concat(this.tipo, " ").concat(identificador);
+        }
       } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
+        console.log("PARAMETROS_TRADUCIR_EXC:" + error);
       }
     }
   }]);

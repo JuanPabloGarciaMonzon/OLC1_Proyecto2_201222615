@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../Abstract/instruccion");
+const Error_1 = __importDefault(require("../Instrucciones/Error"));
 const nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 class Relacional extends instruccion_1.Instruccion {
     constructor(operando1, operando2, operador, fila, columna) {
@@ -13,14 +14,31 @@ class Relacional extends instruccion_1.Instruccion {
         this.operando2 = operando2;
     }
     getNodo() {
-        var nodo = new nodoAST_1.default("RELACIONAL");
-        nodo.agregarHijo2(this.operando1.getNodo());
-        nodo.agregarHijo(this.operador + "");
-        nodo.agregarHijo2(this.operando2.getNodo());
-        return nodo;
+        try {
+            var nodo = new nodoAST_1.default("RELACIONAL");
+            nodo.agregarHijo2(this.operando1.getNodo());
+            nodo.agregarHijo(this.operador + "");
+            nodo.agregarHijo2(this.operando2.getNodo());
+            return nodo;    
+        } catch (error) {
+            console.log("RELACIONAL_GETNODO_ERROR:"+error)             
+        }
+
     }
     traducir() {
-        return this.operando1.traducir() + this.operador + this.operando2.traducir() + "";
+        try {
+            var op1 = this.operando1.traducir();
+            if (op1 instanceof (Error_1.default))
+            return op1;
+            var op2 = this.operando2.traducir();
+            if (op2 instanceof (Error_1.default))
+            return op2;
+
+            return op1 + this.operador + op2 + "";   
+        } catch (error) {
+            console.log("RELACIONAL_TRADUCIR_ERROR:"+error) 
+        }
+
     }
 }
 exports.default = Relacional;

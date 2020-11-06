@@ -55,7 +55,7 @@ function (_instruccion_1$Instru) {
         nodo.excepcion();
         return nodo;
       } catch (error) {
-        console.log("GETNODO_EXC:" + error);
+        console.log("COMENTARIO_GETNODO_EXC:" + error);
       }
     }
   }, {
@@ -64,7 +64,7 @@ function (_instruccion_1$Instru) {
       try {
         return "\n".concat(this.comentario, " \n");
       } catch (error) {
-        console.log("TRADUCIR_EXC:" + error);
+        console.log("COMENTARIO_TRADUCIR_EXC:" + error);
       }
     }
   }]);

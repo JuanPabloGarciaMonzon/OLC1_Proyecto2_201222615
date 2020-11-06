@@ -14,14 +14,24 @@ class Nega_Contador extends instruccion_1.Instruccion {
         
     }
     getNodo() {
-        var nodo = new nodoAST_1.default("CONTADOR");
-        nodo.agregarHijo(this.negativo + "");
-        nodo.agregarHijo(this.operando1 + "");
-        nodo.agregarHijo(this.operador + "");
-        return nodo;
+        try {
+            var nodo = new nodoAST_1.default("CONTADOR");
+            nodo.agregarHijo(this.negativo + "");
+            nodo.agregarHijo(this.operando1 + "");
+            nodo.agregarHijo(this.operador + "");
+            return nodo;    
+        } catch (error) {
+            console.log("NEGA_CONTADOR_GETNODO_ERROR:"+error) 
+        }
+
     }
     traducir() {
-        return `\n${this.negativo}${this.operando1}${this.operador};\n`;
+        try {
+            return `\n${this.negativo}${this.operando1}${this.operador};\n`;    
+        } catch (error) {
+            console.log("NEGA_CONTADOR_TRADUCIR_ERROR:"+error) 
+        }
+
     }
 }
 exports.default = Nega_Contador;

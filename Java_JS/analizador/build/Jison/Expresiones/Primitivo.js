@@ -11,17 +11,27 @@ class Primitivo extends instruccion_1.Instruccion {
         this.valor = valor;
     }
     getNodo() {
-        var nodo = new nodoAST_1.default("PRIMITIVO");
-        if (this.valor[0] == '"' || this.valor[0] == "'") {
-            nodo.agregarHijo(this.valor.substr(1, this.valor.length - 2));
+        try {
+            var nodo = new nodoAST_1.default("PRIMITIVO");
+            if (this.valor[0] == '"' || this.valor[0] == "'") {
+                nodo.agregarHijo(this.valor.substr(1, this.valor.length - 2));
+            }
+            else {
+                nodo.agregarHijo(this.valor);
+            }
+            return nodo;    
+        } catch (error) {
+            console.log("PRIMITIVO_GETNODO_ERROR:"+error)   
         }
-        else {
-            nodo.agregarHijo(this.valor);
-        }
-        return nodo;
+
     }
     traducir() {
-        return this.valor;
+        try {
+            return this.valor;   
+        } catch (error) {
+            console.log("PRIMITIVO_TRADUCIR_ERROR:"+error) 
+        }
+
     }
 }
 exports.default = Primitivo;

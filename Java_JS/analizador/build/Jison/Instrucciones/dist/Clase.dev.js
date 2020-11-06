@@ -32,6 +32,8 @@ var instruccion_1 = require("../Abstract/instruccion");
 
 var nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 
+var Error_1 = __importDefault(require("./Error"));
+
 var Clase =
 /*#__PURE__*/
 function (_instruccion_1$Instru) {
@@ -65,6 +67,7 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator = this.instrucciones[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var m = _step.value;
+            if (m instanceof Error_1["default"]) continue;
             cas.agregarHijo2(m.getNodo());
           }
         } catch (err) {
@@ -101,6 +104,12 @@ function (_instruccion_1$Instru) {
         try {
           for (var _iterator2 = this.instrucciones[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var instr = _step2.value;
+
+            if (instr instanceof Error_1["default"]) {
+              "".concat(instr.imprimir());
+              continue;
+            }
+
             instrucciones += instr.traducir();
           }
         } catch (err) {

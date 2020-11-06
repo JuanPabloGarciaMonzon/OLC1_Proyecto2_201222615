@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../Abstract/instruccion");
+const Error_1 = __importDefault(require("./Error"));
 const nodoAST_1 = __importDefault(require("../Abstract/nodoAST"));
 class Funcion_Main extends instruccion_1.Instruccion {
     constructor(parametros, instrucciones, linea, columna) {
@@ -21,6 +22,8 @@ class Funcion_Main extends instruccion_1.Instruccion {
             nodo.agregarHijo("(");
             var par = new nodoAST_1.default("PARAMETROS");
             for (let m of this.parametros) {
+                if (m instanceof Error_1.default)
+                continue;
                 par.agregarHijo2(m.getNodo());
             }
             nodo.agregarHijo2(par);
@@ -28,13 +31,15 @@ class Funcion_Main extends instruccion_1.Instruccion {
             nodo.agregarHijo("{");
             var cas = new nodoAST_1.default("INSTRUCCIONES");
             for (let m of this.instrucciones) {
+                if (m instanceof Error_1.default)
+                continue;
                 cas.agregarHijo2(m.getNodo());
             }
             nodo.agregarHijo2(cas);
             nodo.agregarHijo("}");
             return nodo; 
         } catch (error) {
-            console.log("GETNODO_EXC:"+error);   
+            console.log("FUNCION_MAIN_GETNODO_EXC:"+error);   
         }
 
     }
@@ -43,14 +48,22 @@ class Funcion_Main extends instruccion_1.Instruccion {
             var instrucciones = '';
             var parametros = '';
             for (let instr of this.instrucciones) {
+                if (instr instanceof Error_1.default) {
+                    `${instr.imprimir()}`;
+                    continue;
+                }
                 instrucciones += instr.traducir();
             }
             for (let par of this.parametros) {
+                if (par instanceof Error_1.default) {
+                    `${par.imprimir()}`;
+                    continue;
+                }
                 parametros += par.traducir();
             }
             return `\npublic static void main (${parametros})\n {\n${instrucciones}\n}\n`;     
         } catch (error) {
-            console.log("TRADUCIR_EXC:"+error);   
+            console.log("FUNCION_MAIN_TRADUCIR_EXC:"+error);   
         }
 
     }

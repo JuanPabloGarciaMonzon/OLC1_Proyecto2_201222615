@@ -223,6 +223,9 @@
         lista_tokens.push([contadorT,yylloc.first_line,yylloc.first_column,"Punto",yytext]);
         return '.';
         }                     
+
+
+
 '++' {
         contadorT++;        
         lista_tokens.push([contadorT,yylloc.first_line,yylloc.first_column,"Incremento",yytext]);
@@ -232,7 +235,12 @@
         contadorT++;        
         lista_tokens.push([contadorT,yylloc.first_line,yylloc.first_column,"Decremento",yytext]);
         return 's_dec';
-        }                    
+        }   
+'**' {
+        contadorT++;        
+        lista_tokens.push([contadorT,yylloc.first_line,yylloc.first_column,"Exponente",yytext]);
+        return 's_exp';
+        }                  
 "*" {
         contadorT++;        
         lista_tokens.push([contadorT,yylloc.first_line,yylloc.first_column,"Por",yytext]);
@@ -242,7 +250,13 @@
         contadorT++;        
         lista_tokens.push([contadorT,yylloc.first_line,yylloc.first_column,"Div",yytext]);
         return 's_div';
-        }                    
+        }   
+
+"%" {
+        contadorT++;        
+        lista_tokens.push([contadorT,yylloc.first_line,yylloc.first_column,"Div",yytext]);
+        return 's_residuo';
+        }                  
 
 "-" {
         contadorT++;        
@@ -339,6 +353,7 @@
     const EmptyFM            = require('./Instrucciones/EmptyFM');
     const EmptyC             = require('./Instrucciones/EmptyC');
     const EmptyI             = require('./Instrucciones/EmptyI');
+    const Error              = require('./Instrucciones/Error') 
     const For                = require('./Instrucciones/For');
     const Funcion_Main       = require('./Instrucciones/Funcion_Main');
     const Funcion            = require('./Instrucciones/Funcion');
@@ -366,11 +381,14 @@ I
 
 S 
         :SD {$$ = $1; }
+        
+
 ;
 
 SD 
         :SD CLASE_INT{$1.push($2); $$ = $1;}
         |CLASE_INT{$$ = [$1];}
+        
 ;
 
 CLASE_INT
@@ -379,6 +397,7 @@ CLASE_INT
         |r_public r_class     identificador s_llave_abre s_llave_cierra{$$ = new EmptyC.default($3, @1.first_line, @1.first_column);}
         |r_public r_interface identificador s_llave_abre s_llave_cierra{$$ = new EmptyI.default($3, @1.first_line, @1.first_column);}        
         |COMENTARIO{$$ = $1;}
+        |PANICO{$$ = $1;} 
 
 ;
 
@@ -390,10 +409,12 @@ COMENTARIO
 PANICO 
         :error s_pyc {
         contadorE++;
+        $$ = new Error.default('Sintactico', `Error recuperado con ${yytext}`, this._$.first_line, this._$.first_column);
         lista_error.push([contadorE,yytext,this._$.first_line,this._$.first_column,"Sintactico"]);
                                 }
         |error s_llave_cierra {
         contadorE++;
+        $$ = new Error.default('Sintactico', `Error recuperado con ${yytext}`, this._$.first_line, this._$.first_column);
         lista_error.push([contadorE,yytext,this._$.first_line,this._$.first_column,"Sintactico"]);
         }
 ;
@@ -401,6 +422,7 @@ PANICO
 L_INSTRUCCIONES
         :L_INSTRUCCIONES INSTRUCCIONES{$1.push($2); $$ = $1;}
         |INSTRUCCIONES{$$ = [$1];}
+        
 ;
 
 L_INSTRUCCIONES_I
@@ -503,6 +525,7 @@ SENTENCIA_IF
         : r_if '(' E ')' BLOQUE_FUNCION	{ $$ = new If.default($3, $5, @1.first_line, @1.first_column); }
         | r_if '(' E ')' BLOQUE_FUNCION r_else BLOQUE_FUNCION{ $$ = new If.default($3, $5, @1.first_line, @1.first_column, $7); }
         | r_if '(' E ')' BLOQUE_FUNCION r_else SENTENCIA_IF	{ $$ = new If.default($3, $5, @1.first_line, @1.first_column, $7); }
+        
 ;
 //-------------------------------------------------------------------------------------------//
 SENTENCIA_WHILE
@@ -553,6 +576,7 @@ FUNCION_MAIN
 CALL_F
         :r_public TIPO identificador '(' PARAMETROS ')' s_pyc {$$ = new Call_Function.default($2,$3,$5,@1.first_line, @1.first_column);}
         |r_public r_void identificador '(' PARAMETROS ')' s_pyc {$$ = new Call_Function.default($2,$3,$5,@1.first_line, @1.first_column);}
+        |identificador '(' PARAMETROS ')' s_pyc {$$ = new Call_Function.default("",$1,$3,@1.first_line, @1.first_column);}
 ;
 //--------------------------------------------------------------------------------------------//
 BLOQUE
@@ -588,6 +612,7 @@ PARAMETROS
 
 PARAM
         :TIPO E{$$ = new Parametros.default($1,$2,@1.first_line, @1.first_column);}
+        |E{$$ =new Parametros.default("",$1,@1.first_line, @1.first_column);}
         |{$$ = new Excepcion.default("VACIO",@1.first_line, @1.first_column);}
 ;
 //----------------------------------------------------------------------------------------------//
@@ -625,9 +650,9 @@ E2
 ;
 
 E3
-        :E3 s_xor E4 {$$ = new Logica.default($1, $3, '^', @1.first_line, @1.first_column);}
-        |E3 s_and E4 {$$ = new Logica.default($1, $3, '&&', @1.first_line, @1.first_column);}
-        |E3 s_or  E4 {$$ = new Logica.default($1, $3, '||', @1.first_line, @1.first_column);}
+        :E3 s_xor E4 {$$ = new Logica.default('^', @1.first_line, @1.first_column,$1, $3);}
+        |E3 s_and E4 {$$ = new Logica.default('&&', @1.first_line, @1.first_column,$1, $3);}
+        |E3 s_or  E4 {$$ = new Logica.default('||', @1.first_line, @1.first_column,$1, $3);}
         |E4 {$$ =$1}
 ;
 
@@ -639,13 +664,15 @@ E4
 
 E5
         :E5 s_por E6{  $$ = new Aritmetica.default('*', @1.first_line, @1.first_column, $1, $3);}
+        |E5 s_residuo E6{  $$ = new Aritmetica.default('%', @1.first_line, @1.first_column,$1, $3);}
         |E5 s_div E6{  $$ = new Aritmetica.default('/', @1.first_line, @1.first_column,$1, $3);}
+        |E5 s_exp E6{  $$ = new Aritmetica.default('**', @1.first_line, @1.first_column,$1, $3);}
         |E6{$$ =$1}
 ;
 
 E6
         :s_menos E7 { $$ = new Aritmetica.default('-', @1.first_line, @1.first_column, $2);}
-        |s_not E7 {  $$ = new Logica.default('!', @1.first_line, @1.first_column, $2);}
+        |s_not E7 {  $$ = new Logica.default('!',@1.first_line, @1.first_column,$2);}
         |E7 s_inc {  $$ = new Aritmetica.default('++', @1.first_line, @1.first_column, $1);}
         |E7 s_dec{  $$ = new Aritmetica.default('--', @1.first_line, @1.first_column, $1);}
         |E7{$$ =$1}
@@ -655,6 +682,7 @@ E7
         :'(' E ')'{ $$ = new Parentesis.default($1,$2,$3, @1.first_line, @1.first_column);}
         |identificador  { $$ = new Identificador.default($1, @1.first_line, @1.first_column); }
         |NUMBER{$$ = new Primitivo.default($1, @1.first_line, @1.first_column);}
+        |identificador '(' PARAMETROS ')' {$$ = new Call_Function.default("EXPRESION",$1,$3,@1.first_line, @1.first_column);}
         |char{$$ = new Primitivo.default($1, @1.first_line, @1.first_column);}
         |cadena{$$ = new Primitivo.default($1, @1.first_line, @1.first_column);}
         |r_true{$$ = new Primitivo.default($1, @1.first_line, @1.first_column);}

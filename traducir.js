@@ -26,10 +26,15 @@ function traducir()
             console.log(data.arbol);
             d3.select(graph).graphviz()
             .renderDot(data.arbol);
-            for (let er of data.error) {
-                error += er;
+            try {
+                for (let er of data.error) {
+                    error += er;
+                }  
+            } catch (errors) {
+                console.log("ERROR:"+errors);  
             }
-            console.log(error);
+
+
 
             for (let tk of data.token) {
                 token += tk;

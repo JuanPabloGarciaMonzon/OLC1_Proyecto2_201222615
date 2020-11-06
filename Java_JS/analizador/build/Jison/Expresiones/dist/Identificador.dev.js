@@ -50,14 +50,22 @@ function (_instruccion_1$Instru) {
   _createClass(Identificador, [{
     key: "getNodo",
     value: function getNodo() {
-      var nodo = new nodoAST_1["default"]("IDENTIFICADOR");
-      nodo.agregarHijo(this.identificador);
-      return nodo;
+      try {
+        var nodo = new nodoAST_1["default"]("IDENTIFICADOR");
+        nodo.agregarHijo(this.identificador);
+        return nodo;
+      } catch (error) {
+        console.log("IDENTIFICADOR_GETNODO_ERROR:" + error);
+      }
     }
   }, {
     key: "traducir",
     value: function traducir() {
-      return this.identificador;
+      try {
+        return this.identificador;
+      } catch (error) {
+        console.log("IDENTIFICADOR_TRADUCIR_ERROR:" + error);
+      }
     }
   }]);
 
