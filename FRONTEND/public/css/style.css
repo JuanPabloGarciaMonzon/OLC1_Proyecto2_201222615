@@ -1,15 +1,14 @@
 /* Styles go here */
 div.a {
 	position: relative;
-	left: 1000px;
+	left:100px;
 	top:-300px;
-	width: 750px;
-	height: 200px;
+	width: 1600px;
+	height: 500px;
 	font-family:verdana;
 	font-size: xx-large;
 	
-  }
-  
+  }  
   div.b {
 	position: relative;
 	top:500px;
@@ -26,14 +25,7 @@ div.a {
 	left: 100px;
 	bottom:500px;
 	width: 7000px;
-	height: 200px;
+	height: 1000px;
 	font-family:verdana;
-	font-size: xx-large;
-
-  
-  } 
-  .text_area {
-	color: black;
-
-  
+	font-size: xx-large;  
   } 

@@ -11,7 +11,7 @@
    <!--CODE MIRROR IMPORTS-->   
     <link href="codemirror/lib/codemirror.css" rel="stylesheet" >
     <link href="codemirror/theme/blackboard.css"  rel="stylesheet" >
-    <link href="codemirror/theme/eclipse.css"  rel="stylesheet" >
+    <link href="codemirror/theme/yonce.css"  rel="stylesheet" >
 
     <script src="codemirror/lib/codemirror.js"></script>
     <script src="codemirror/addon/edit/closetag.js"></script>
@@ -33,9 +33,10 @@
     <ul id="menu" class="menu">
         <li class="dropdown">
             <a class="linkarchivo" style ="font-size: xx-large;" href="javascript:void(0)" class="dropbtn">Menu</a>
-            <div class="dropdown-content">    
-                <a  id="guardar" title="Guardar" class="guardar"   style ="font-size: xx-large;" onclick="DescargarArchivo();" href="javascript:void(0)">Guardar</a>
-                <a  id="guardar" title="Guardar" class="guardar"   style ="font-size: xx-large;" onclick="DescargarArchivo();"href="javascript:void(0)">Guardar Como</a>
+            <div class="dropdown-content">
+ 
+                <a  title="Guardar" class="guardar"   style ="font-size: xx-large;" onclick="saveTextFile()" href="javascript:void(0)">Guardar</a>
+                <a  id="guardar" title="Guardar" class="guardar"   style ="font-size: xx-large;" onclick="saveTextAsFile()"href="javascript:void(0)">Guardar Como</a>
                 <a id="analizar" class="analizar" style ="font-size: xx-large;" onclick = "traducir()"  href="javascript:void(0)">Analizar</a>
                 <!--<a id="limpiar_a" class="limpiar_a" onclick="limpiar_a()" href="javascript:void(0)">Limpiar Analisis</a>-->
             </div>
@@ -76,15 +77,25 @@
 <!-------------HTML TextArea JAVA Console and CodeMirror Script---------------------->
     <br>   
     <br>    
+
     <center>
-        <div class ="c">
-            <label>JAVA</label>
-        </div>
-    </center>
+    <input id="fileInput" title="Abrir" type="file" size="50" onchange="AbrirArchivo(this.files)" class="btnp">
+    <button onclick="agregar();" title="AgregarPestana" id="btn4" class="btnp">+</button>
+    <button onclick="quitar();" title="QuitarPestana" id="btn5" class="btnp">-</button>
+    <br>
+    <br>
+    <label style = "color:white">Nombre de Archivo a Guardar:</label> <td><input id="inputFileNameToSaveAs"></input></td>   
+</center>
+<br>
+<br>
+<br>
+<center>
+    <div >
+        <label style="font-size: xx-large;font-family:Verdana">JAVA</label>
+    </div>
+</center>
     <div class = "contenedor"> 
-        <input id="fileInput" title="Abrir" type="file" size="50" onchange="AbrirArchivo(this.files)" class="btnp">
-        <button onclick="agregar();" title="AgregarPestana" id="btn4" class="btnp">Agregar Pestana</button>
-        <button onclick="quitar();" title="QuitarPestana" id="btn5" class="btnp">Quitar Pestana</button>
+
         <br>
         <br>
         <div id="pestanas" class = "city" style="font-family:verdana" autofocus="true">
@@ -106,12 +117,21 @@
         <br>
         <br>
         <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
 <!-------------HTML TextAreas----------------------------------------------------------------------------------------------------------->
 
 
-        <div class ="c">
+        <div class ="a">
             <label>JAVASCRIPT</label>
-            <textarea style = "background-color: black; color: white;" id="txt_js" disabled ></textarea>
+            <textarea style = "font-size: xx-large;background-color: black; color: white;" id="txt_js" disabled ></textarea>
             <br>
             <br>
         </div>
@@ -125,34 +145,26 @@
     <br>
     <br>
 
-    <div class ="c">
+    <div class ="a">
         <label>PYTHON</label>
-        <textarea style = "background-color: black; color: white;" id="txt_python" disabled ></textarea>
+        <textarea style = "font-size: xx-large;background-color: black; color: white;" id="txt_python" disabled ></textarea>
     </div>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <center>
-        <label  style="font-size: xx-large;font-family:Verdana">_________________________________________________AST_________________________________________________________________</label>   
+        <label  style="font-size: xx-large;font-family:Verdana">_____________________________________________AST_____________________________________________________________________</label>   
         <br>
         <br>
         <div id="graph"></div>  
     </center>
     
     <center>
-        <label  style="font-size: xx-large;font-family:Verdana">_________________________________________________ERRORES_________________________________________________________________</label>   
+        <label  style="font-size: xx-large;font-family:Verdana">____________________________________________ERRORES______________________________________________________________________</label>   
         <br>
         <br>
         <div id="t_error"></div>  
     </center> 
     <center>
-        <label  style="font-size: xx-large;font-family:Verdana">_________________________________________________TOKENS_________________________________________________________________</label>   
+        <label  style="font-size: xx-large;font-family:Verdana">____________________________________________TOKENS______________________________________________________________________</label>   
         <br>
         <br>
         <div id="t_token"></div>  

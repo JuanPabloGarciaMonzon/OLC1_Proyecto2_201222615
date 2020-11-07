@@ -1,14 +1,10 @@
-body {
-    background: darkgrey;
-}
-
 .ta {
     resize: none;
 }
 
 .btnp {
     border: none;
-    background: #3a7999;
+    background: green;
     color: #f2f2f2;
     padding: 5px;
     font-size: 14px;
@@ -21,19 +17,13 @@ body {
 .contenedor{
     width: 1080px;
     margin: auto;
-    background: #ff0000;
-    color: rgb(0, 112, 163);
+    background:purple;
+    color: black;
     padding: 20px 15px 50px 50px;
     border-radius: 10px;
-    box-shadow: 0 10px 10px 0px rgba(0, 0, 0, 0.8);
+
 }
 
-.contenedor .titulo{
-    font-size: 3.5ex;
-    font-weight: bold;
-    margin-left: 10px;
-    margin-bottom: 10px;
-}
 
 #pestanas {
     float: top;
@@ -50,11 +40,11 @@ body {
     float: left;
     text-align: center;
     margin: 0px 2px -2px -0px;
-    background: #ff0000;
+    background: gray;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border: 2px solid rgb(0, 112, 163);
-    border-bottom: dimgray;
+    border-bottom: purple;
     padding: 0px 20px 0px 20px;
 }
 
@@ -65,48 +55,11 @@ body {
 
 #contenidopestanas{
     clear: both;
-    background: dimgray;
+    background: purple;
     padding: 20px 0px 20px 20px;
     border-radius: 5px;
     border-top-left-radius: 0px;
-    border: 2px solid rgb(0, 112, 163);
+
     width: 1025px;
-}
-
-#pestanascon {
-    float: top;
-    font-size: 3ex;
-    font-weight: bold;
-}
-
-#pestanascon ul{
-    margin-left: -40px;
-}
-
-#pestanascon li{
-    list-style-type: none;
-    float: left;
-    text-align: center;
-    margin: 0px 2px -2px -0px;
-    background: #22556e;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border: 2px solid rgb(0, 112, 163);
-    border-bottom: dimgray;
-    padding: 0px 20px 0px 20px;
-}
-
-#pestanascon a:link{
-    text-decoration: none;
-    color: #ffffff;
-}
-
-#contenidopestanascon{
-    clear: both;
-    background: dimgray;
-    padding: 20px 0px 20px 20px;
-    border-radius: 5px;
-    border-top-left-radius: 0px;
-    border: 2px solid rgb(0, 112, 163);
-    width: 1025px;
+    font-size: xx-large;
 }
